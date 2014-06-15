@@ -3,8 +3,8 @@ package dhash
 import (
 	"bytes"
 	"fmt"
-	"github.com/zond/god/client"
-	"github.com/zond/god/common"
+	"github.com/purak/gauss/client"
+	"github.com/purak/gauss/common"
 	"github.com/zond/setop"
 	"sync/atomic"
 	"time"

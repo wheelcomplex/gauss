@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/hex"
 	"fmt"
-	"github.com/zond/god/murmur"
+	"github.com/purak/gauss/murmur"
 	"strings"
 	"time"
 )

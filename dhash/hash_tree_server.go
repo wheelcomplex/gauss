@@ -1,8 +1,8 @@
 package dhash
 
 import (
-	"github.com/zond/god/common"
-	"github.com/zond/god/radix"
+	"github.com/purak/gauss/common"
+	"github.com/purak/gauss/radix"
 	"sync/atomic"
 	"time"
 )

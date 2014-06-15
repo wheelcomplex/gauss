@@ -3,7 +3,7 @@ package common
 import (
 	"bytes"
 	"fmt"
-	"github.com/zond/god/murmur"
+	"github.com/purak/gauss/murmur"
 	"math/big"
 	"math/rand"
 	"sort"

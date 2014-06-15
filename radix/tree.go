@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/hex"
 	"fmt"
-	"github.com/zond/god/common"
-	"github.com/zond/god/murmur"
-	"github.com/zond/god/persistence"
+	"github.com/purak/gauss/common"
+	"github.com/purak/gauss/murmur"
+	"github.com/purak/gauss/persistence"
 	"math/big"
 	"sync/atomic"
 )
@@ -828,7 +828,7 @@ func (self *Tree) ReverseIndex(n int) (key []byte, byteValue []byte, timestamp i
 	return
 }
 
-// Clear will remove all content of this Tree (including tombstones and sub trees) and any mirror Tree, replace them all with one giant tombstone, 
+// Clear will remove all content of this Tree (including tombstones and sub trees) and any mirror Tree, replace them all with one giant tombstone,
 // and clear any persistence.Logger assigned to this Tree.
 func (self *Tree) Clear(timestamp int64) {
 	self.lock.Lock()

@@ -1,11 +1,11 @@
 dhash
 ===
 
-The distributed hash bits and pieces in god. Uses radix for tree structure, discord for routing and timenet for clock synchronization.
+The distributed hash bits and pieces in gauss. Uses radix for tree structure, discord for routing and timenet for clock synchronization.
 
 # Inspiration
 
-god is mainly inspired by the scalability of Chord/DHash, and the performance and feature set of Redis.
+gauss is mainly inspired by the scalability of Chord/DHash, and the performance and feature set of Redis.
 
 It tries to couple a performant in-memory database and simple yet powerful features with a scalable and operationally simple cluster concept.
 
@@ -16,7 +16,7 @@ all entries have a timestamp based on the time synchronization of the [timenet.T
 
 All removed entries are replaced with a tombstone, also having a timestamp, which makes it less likely that old data may live again.
 
-Tombstones are lazily removed after 24 hours, when data in their vicinity is changed. This makes it imperative that any network splits or temporarily dead 
+Tombstones are lazily removed after 24 hours, when data in their vicinity is changed. This makes it imperative that any network splits or temporarily dead
 nodes be fixed _or_ cleaned before rejoining the main cluster again.
 
 # Synchronization
@@ -30,8 +30,8 @@ This is done by comparing their respective databases, and copying any entries wi
 
 To ensure that all Nodes in the network get rid of the data they should not have, each node regularly cleans its database.
 
-This is done by looking at the first entry it should not own (the first one after its own position), 
-checking what other Node should own it, and then doing a destructive sync (again using [radix.Sync](../../blob/master/radix/sync.go)) 
+This is done by looking at the first entry it should not own (the first one after its own position),
+checking what other Node should own it, and then doing a destructive sync (again using [radix.Sync](../../blob/master/radix/sync.go))
 between the misplaced entry and the position of the proper owner.
 
 # Migration

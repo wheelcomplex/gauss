@@ -1,7 +1,7 @@
 package dhash
 
 import (
-	"github.com/zond/god/timenet"
+	"github.com/purak/gauss/timenet"
 	"time"
 )
 

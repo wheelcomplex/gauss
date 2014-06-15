@@ -2,7 +2,7 @@ package radix
 
 import (
 	"bytes"
-	"github.com/zond/god/common"
+	"github.com/purak/gauss/common"
 )
 
 const (

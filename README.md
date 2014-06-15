@@ -1,21 +1,21 @@
-god
+gauss
 ===
 
-[![Build Status](https://drone.io/github.com/zond/god/status.png)](https://drone.io/github.com/zond/god/latest)
+[![Build Status](https://drone.io/github.com/purak/gauss/status.png)](https://drone.io/github.com/purak/gauss/latest)
 
-god is a scalable, performant, persistent, in-memory data structure server. It allows massively distributed applications to update and fetch common data in a structured and sorted format.
+gauss is a scalable, performant, persistent, in-memory data structure server. It allows massively distributed applications to update and fetch common data in a structured and sorted format.
 
 Its main inspirations are Redis and Chord/DHash. Like Redis it focuses on performance, ease of use, and a small, simple yet powerful feature set, while from the Chord/DHash projects it inherits scalability, redundancy, and transparent failover behaviour.
 
 # Try it out
 
-Install <a href="http://golang.org/doc/install">Go</a>, <a href="http://git-scm.com/downloads">git</a>, <a href="http://mercurial.selenic.com/wiki/Download">Mercurial</a> and <a href="http://gcc.gnu.org/install/">gcc</a>, <code>go get github.com/zond/god/god_server</code>, run <code>god_server</code>, browse to <a href="http://localhost:9192/">http://localhost:9192/</a>.
+Install <a href="http://golang.org/doc/install">Go</a>, <a href="http://git-scm.com/downloads">git</a>, <a href="http://mercurial.selenic.com/wiki/Download">Mercurial</a> and <a href="http://gcc.gnu.org/install/">gcc</a>, <code>go get github.com/purak/gauss/gauss_server</code>, run <code>gauss_server</code>, browse to <a href="http://localhost:9192/">http://localhost:9192/</a>.
 
 # Documents
 
-HTML documentation: http://zond.github.com/god/
+HTML documentation: http://purak.github.com/gauss/
 
-godoc documentation: http://go.pkgdoc.org/github.com/zond/god
+gaussoc documentation: http://go.pkgdoc.org/github.com/purak/gauss
 
 # TODO
 

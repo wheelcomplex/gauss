@@ -1,7 +1,7 @@
 package dhash
 
 import (
-	"github.com/zond/god/common"
+	"github.com/purak/gauss/common"
 	"github.com/zond/setop"
 )
 

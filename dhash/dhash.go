@@ -3,11 +3,11 @@ package dhash
 import (
 	"bytes"
 	"fmt"
-	"github.com/zond/god/common"
-	"github.com/zond/god/discord"
-	"github.com/zond/god/murmur"
-	"github.com/zond/god/radix"
-	"github.com/zond/god/timenet"
+	"github.com/purak/gauss/common"
+	"github.com/purak/gauss/discord"
+	"github.com/purak/gauss/murmur"
+	"github.com/purak/gauss/radix"
+	"github.com/purak/gauss/timenet"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -58,7 +58,7 @@ const (
 	stopped
 )
 
-// Node is a node in the database. It contains a discord.Node containing routing and rpc functionality, 
+// Node is a node in the database. It contains a discord.Node containing routing and rpc functionality,
 // a timenet.Timer containing time synchronization functionality and a radix.Tree containing the actual data.
 type Node struct {
 	lastSync         int64

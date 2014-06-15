@@ -3,7 +3,7 @@ package dhash
 import (
 	"bytes"
 	"fmt"
-	"github.com/zond/god/common"
+	"github.com/purak/gauss/common"
 	"os"
 	"runtime"
 	"sort"

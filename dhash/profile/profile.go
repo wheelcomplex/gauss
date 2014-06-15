@@ -5,9 +5,9 @@ import (
 	"os"
 	"runtime/pprof"
 
-	"github.com/zond/god/common"
-	. "github.com/zond/god/dhash"
-	"github.com/zond/god/murmur"
+	"github.com/purak/gauss/common"
+	. "github.com/purak/gauss/dhash"
+	"github.com/purak/gauss/murmur"
 )
 
 func main() {

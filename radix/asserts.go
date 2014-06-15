@@ -1,7 +1,7 @@
 package radix
 
 import (
-	"github.com/zond/god/common"
+	"github.com/purak/gauss/common"
 	"testing"
 )
 

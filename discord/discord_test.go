@@ -2,7 +2,7 @@ package discord
 
 import (
 	"fmt"
-	"github.com/zond/god/common"
+	"github.com/purak/gauss/common"
 	"testing"
 	"time"
 )

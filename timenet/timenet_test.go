@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zond/god/common"
+	"github.com/purak/gauss/common"
 )
 
 func init() {
