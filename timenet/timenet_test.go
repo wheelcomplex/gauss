@@ -38,6 +38,7 @@ func (self testPeerProducer) makePeer() testPeer {
 	timer.offset = int64(rand.Int63() % int64(10000000000))
 	return testPeer{timer}
 }
+
 func (self testPeerProducer) deviance() (result int64) {
 	var mean int64
 	for _, timer := range self.peers {
@@ -51,9 +52,11 @@ func (self testPeerProducer) deviance() (result int64) {
 	}
 	return int64(math.Sqrt(float64(result / int64(len(self.peers)))))
 }
+
 func (self testPeerProducer) add(n string, p testPeer) {
 	self.peers[n] = p
 }
+
 func (self testPeerProducer) Peers() (result map[string]Peer) {
 	result = make(map[string]Peer)
 	for n, p := range self.peers {
