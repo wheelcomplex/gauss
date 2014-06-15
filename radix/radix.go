@@ -45,6 +45,7 @@ func Rip(b []byte) (result []Nibble) {
 	}
 	return
 }
+
 func stringEncode(b []byte) string {
 	buffer := new(bytes.Buffer)
 	for _, c := range b {
@@ -98,9 +99,11 @@ func (self *Print) coveredBy(other *Print) bool {
 	}
 	return other != nil && (other.Timestamp > self.Timestamp || bytes.Compare(self.ByteHash, other.ByteHash) == 0)
 }
+
 func (self *Print) push(n *node) {
 	self.Key = append(self.Key, n.segment...)
 }
+
 func (self *Print) set(n *node) {
 	self.Exists = true
 	self.ByteHash = n.byteHash
@@ -123,6 +126,7 @@ func (self *Print) set(n *node) {
 		}
 	}
 }
+
 func (self *Print) timestamp() int64 {
 	if self == nil {
 		return 0

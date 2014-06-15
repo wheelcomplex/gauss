@@ -39,6 +39,7 @@ func MustJSONEncode(i interface{}) []byte {
 	}
 	return result
 }
+
 func MustJSONDecode(b []byte, i interface{}) {
 	err := json.Unmarshal(b, i)
 	if err != nil {

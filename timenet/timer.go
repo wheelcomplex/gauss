@@ -54,6 +54,7 @@ func NewTimer(producer PeerProducer) *Timer {
 		peerLatencies: make(map[string]times),
 	}
 }
+
 func (self *Timer) adjustments() int64 {
 	return self.offset + self.dilations.delta()
 }
@@ -114,10 +115,12 @@ func (self *Timer) Stability() (result time.Duration) {
 	}
 	return
 }
+
 func (self *Timer) adjust(id string, adjustment int64) {
 	self.peerErrors[id] = adjustment
 	self.dilations.add(adjustment)
 }
+
 func (self *Timer) randomPeer() (id string, peer Peer, peerLatencies times) {
 	currentPeers := self.peerProducer.Peers()
 	chosenIndex := rand.Int() % len(currentPeers)
@@ -144,6 +147,7 @@ func (self *Timer) randomPeer() (id string, peer Peer, peerLatencies times) {
 	}
 	return
 }
+
 func (self *Timer) timeAndLatency(peer Peer) (peerTime, latency, myTime int64) {
 	latency = -time.Now().UnixNano()
 	peerTime = peer.ActualTime().UnixNano()
@@ -192,12 +196,15 @@ func (self *Timer) Sample() {
 		self.adjust(peerId, peerTime-myTime)
 	}
 }
+
 func (self *Timer) hasState(s int32) bool {
 	return atomic.LoadInt32(&self.state) == s
 }
+
 func (self *Timer) changeState(old, neu int32) bool {
 	return atomic.CompareAndSwapInt32(&self.state, old, neu)
 }
+
 func (self *Timer) sleep() {
 	err := self.Error()
 	stability := self.Stability()
@@ -215,7 +222,7 @@ func (self *Timer) sleep() {
 	}
 }
 
-// Run will make this Timer regularly Sample. 
+// Run will make this Timer regularly Sample.
 func (self *Timer) Run() {
 	for self.hasState(started) {
 		self.Sample()

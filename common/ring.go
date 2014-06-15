@@ -10,11 +10,13 @@ import (
 	"sync"
 )
 
-// RingChangeListener is a function listening to changes in a Ring (ie changes in Node composition or position).
+// RingChangeListener is a function listening to changes in a Ring
+// (ie changes in Node composition or position).
 type RingChangeListener func(ring *Ring) (keep bool)
 
 // Ring contains an ordered set of routes to discord.Nodes.
-// It can fetch predecessor, match and successor for any key or remote (remotes are ordeded first on position, then on address, so that we have
+// It can fetch predecessor, match and successor for any key or remote
+// (remotes are ordeded first on position, then on address, so that we have
 // a defined orded even between nodes with the same position).
 type Ring struct {
 	nodes           Remotes

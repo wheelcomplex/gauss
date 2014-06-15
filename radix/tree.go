@@ -111,6 +111,7 @@ type Tree struct {
 func NewTree() *Tree {
 	return NewTreeTimer(NaiveTimer{})
 }
+
 func NewTreeTimer(timer Timer) (result *Tree) {
 	result = &Tree{
 		lock:          common.NewTimeLock(),
@@ -121,9 +122,11 @@ func NewTreeTimer(timer Timer) (result *Tree) {
 	result.dataTimestamp = timer.ContinuousTime()
 	return
 }
+
 func (self *Tree) Load() float64 {
 	return self.lock.Load()
 }
+
 func (self *Tree) deepEqual(o *Tree) bool {
 	return self.Describe() == o.Describe()
 }
@@ -142,11 +145,13 @@ func (self *Tree) Configuration() (map[string]string, int64) {
 	defer self.lock.RUnlock()
 	return self.conf()
 }
+
 func (self *Tree) mirrorClear(timestamp int64) {
 	if self.mirror != nil {
 		self.mirror.Clear(timestamp)
 	}
 }
+
 func (self *Tree) mirrorPut(key, value []byte, timestamp int64) {
 	if self.mirror != nil {
 		escapedKey := escapeBytes(key)
@@ -156,6 +161,7 @@ func (self *Tree) mirrorPut(key, value []byte, timestamp int64) {
 		self.mirror.Put(newKey, key, timestamp)
 	}
 }
+
 func (self *Tree) mirrorFakeDel(key, value []byte, timestamp int64) {
 	if self.mirror != nil {
 		escapedKey := escapeBytes(key)
@@ -165,6 +171,7 @@ func (self *Tree) mirrorFakeDel(key, value []byte, timestamp int64) {
 		self.mirror.FakeDel(newKey, timestamp)
 	}
 }
+
 func (self *Tree) mirrorDel(key, value []byte) {
 	if self.mirror != nil {
 		escapedKey := escapeBytes(key)
@@ -174,6 +181,7 @@ func (self *Tree) mirrorDel(key, value []byte) {
 		self.mirror.Del(newKey)
 	}
 }
+
 func (self *Tree) startMirroring() {
 	self.mirror = NewTreeTimer(self.timer)
 	self.root.each(nil, byteValue, func(key, byteValue []byte, treeValue *Tree, use int, timestamp int64) bool {
@@ -181,6 +189,7 @@ func (self *Tree) startMirroring() {
 		return true
 	})
 }
+
 func (self *Tree) configure(conf map[string]string, ts int64) {
 	if conf[mirrored] == yes && self.configuration[mirrored] != yes {
 		self.startMirroring()
@@ -260,11 +269,13 @@ func (self *Tree) Restore() *Tree {
 	<-self.logger.Record()
 	return self
 }
+
 func (self *Tree) log(op persistence.Op) {
 	if self.logger != nil && self.logger.Recording() {
 		self.logger.Dump(op)
 	}
 }
+
 func (self *Tree) newTreeWith(key []Nibble, byteValue []byte, timestamp int64) (result *Tree) {
 	result = NewTreeTimer(self.timer)
 	result.PutTimestamp(key, byteValue, true, 0, timestamp)
@@ -480,6 +491,7 @@ func (self *Tree) String() string {
 	}
 	return fmt.Sprint(self.ToMap())
 }
+
 func (self *Tree) sizeBetween(min, max []byte, mininc, maxinc bool, use int) int {
 	if self == nil {
 		return 0
@@ -535,6 +547,7 @@ func (self *Tree) Size() int {
 	defer self.lock.RUnlock()
 	return self.root.byteSize + self.root.treeSize
 }
+
 func (self *Tree) describeIndented(first, indent int) string {
 	if self == nil {
 		return ""
@@ -580,6 +593,7 @@ func (self *Tree) FakeDel(key []byte, timestamp int64) (oldBytes []byte, oldTree
 	}
 	return
 }
+
 func (self *Tree) put(key []Nibble, byteValue []byte, treeValue *Tree, use int, timestamp int64) (oldBytes []byte, oldTree *Tree, existed int) {
 	self.dataTimestamp = timestamp
 	self.root, oldBytes, oldTree, _, existed = self.root.insert(nil, newNode(key, byteValue, treeValue, timestamp, false, use), self.timer.ContinuousTime())
@@ -869,6 +883,7 @@ func (self *Tree) SubMirrorReverseIndexOf(key, subKey []byte) (index int, existe
 	}
 	return
 }
+
 func (self *Tree) SubMirrorIndexOf(key, subKey []byte) (index int, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -877,6 +892,7 @@ func (self *Tree) SubMirrorIndexOf(key, subKey []byte) (index int, existed bool)
 	}
 	return
 }
+
 func (self *Tree) SubReverseIndexOf(key, subKey []byte) (index int, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -885,6 +901,7 @@ func (self *Tree) SubReverseIndexOf(key, subKey []byte) (index int, existed bool
 	}
 	return
 }
+
 func (self *Tree) SubIndexOf(key, subKey []byte) (index int, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -893,6 +910,7 @@ func (self *Tree) SubIndexOf(key, subKey []byte) (index int, existed bool) {
 	}
 	return
 }
+
 func (self *Tree) SubMirrorPrevIndex(key []byte, index int) (foundKey, foundValue []byte, foundTimestamp int64, foundIndex int, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -901,6 +919,7 @@ func (self *Tree) SubMirrorPrevIndex(key []byte, index int) (foundKey, foundValu
 	}
 	return
 }
+
 func (self *Tree) SubMirrorNextIndex(key []byte, index int) (foundKey, foundValue []byte, foundTimestamp int64, foundIndex int, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -909,6 +928,7 @@ func (self *Tree) SubMirrorNextIndex(key []byte, index int) (foundKey, foundValu
 	}
 	return
 }
+
 func (self *Tree) SubPrevIndex(key []byte, index int) (foundKey, foundValue []byte, foundTimestamp int64, foundIndex int, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -917,6 +937,7 @@ func (self *Tree) SubPrevIndex(key []byte, index int) (foundKey, foundValue []by
 	}
 	return
 }
+
 func (self *Tree) SubNextIndex(key []byte, index int) (foundKey, foundValue []byte, foundTimestamp int64, foundIndex int, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -925,6 +946,7 @@ func (self *Tree) SubNextIndex(key []byte, index int) (foundKey, foundValue []by
 	}
 	return
 }
+
 func (self *Tree) SubMirrorFirst(key []byte) (firstKey []byte, firstBytes []byte, firstTimestamp int64, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -933,6 +955,7 @@ func (self *Tree) SubMirrorFirst(key []byte) (firstKey []byte, firstBytes []byte
 	}
 	return
 }
+
 func (self *Tree) SubMirrorLast(key []byte) (lastKey []byte, lastBytes []byte, lastTimestamp int64, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -941,6 +964,7 @@ func (self *Tree) SubMirrorLast(key []byte) (lastKey []byte, lastBytes []byte, l
 	}
 	return
 }
+
 func (self *Tree) SubFirst(key []byte) (firstKey []byte, firstBytes []byte, firstTimestamp int64, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -949,6 +973,7 @@ func (self *Tree) SubFirst(key []byte) (firstKey []byte, firstBytes []byte, firs
 	}
 	return
 }
+
 func (self *Tree) SubLast(key []byte) (lastKey []byte, lastBytes []byte, lastTimestamp int64, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -957,6 +982,7 @@ func (self *Tree) SubLast(key []byte) (lastKey []byte, lastBytes []byte, lastTim
 	}
 	return
 }
+
 func (self *Tree) SubMirrorPrev(key, subKey []byte) (prevKey, prevValue []byte, prevTimestamp int64, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -965,6 +991,7 @@ func (self *Tree) SubMirrorPrev(key, subKey []byte) (prevKey, prevValue []byte, 
 	}
 	return
 }
+
 func (self *Tree) SubMirrorNext(key, subKey []byte) (nextKey, nextValue []byte, nextTimestamp int64, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -973,6 +1000,7 @@ func (self *Tree) SubMirrorNext(key, subKey []byte) (nextKey, nextValue []byte, 
 	}
 	return
 }
+
 func (self *Tree) SubPrev(key, subKey []byte) (prevKey, prevValue []byte, prevTimestamp int64, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -981,6 +1009,7 @@ func (self *Tree) SubPrev(key, subKey []byte) (prevKey, prevValue []byte, prevTi
 	}
 	return
 }
+
 func (self *Tree) SubNext(key, subKey []byte) (nextKey, nextValue []byte, nextTimestamp int64, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -989,6 +1018,7 @@ func (self *Tree) SubNext(key, subKey []byte) (nextKey, nextValue []byte, nextTi
 	}
 	return
 }
+
 func (self *Tree) SubSize(key []byte) (result int) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -997,6 +1027,7 @@ func (self *Tree) SubSize(key []byte) (result int) {
 	}
 	return
 }
+
 func (self *Tree) SubMirrorSizeBetween(key, min, max []byte, mininc, maxinc bool) (result int) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1005,6 +1036,7 @@ func (self *Tree) SubMirrorSizeBetween(key, min, max []byte, mininc, maxinc bool
 	}
 	return
 }
+
 func (self *Tree) SubSizeBetween(key, min, max []byte, mininc, maxinc bool) (result int) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1013,6 +1045,7 @@ func (self *Tree) SubSizeBetween(key, min, max []byte, mininc, maxinc bool) (res
 	}
 	return
 }
+
 func (self *Tree) SubGet(key, subKey []byte) (byteValue []byte, timestamp int64, existed bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1021,6 +1054,7 @@ func (self *Tree) SubGet(key, subKey []byte) (byteValue []byte, timestamp int64,
 	}
 	return
 }
+
 func (self *Tree) SubMirrorReverseEachBetween(key, min, max []byte, mininc, maxinc bool, f TreeIterator) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1028,6 +1062,7 @@ func (self *Tree) SubMirrorReverseEachBetween(key, min, max []byte, mininc, maxi
 		subTree.MirrorReverseEachBetween(min, max, mininc, maxinc, f)
 	}
 }
+
 func (self *Tree) SubMirrorEachBetween(key, min, max []byte, mininc, maxinc bool, f TreeIterator) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1035,6 +1070,7 @@ func (self *Tree) SubMirrorEachBetween(key, min, max []byte, mininc, maxinc bool
 		subTree.MirrorEachBetween(min, max, mininc, maxinc, f)
 	}
 }
+
 func (self *Tree) SubMirrorReverseEachBetweenIndex(key []byte, min, max *int, f TreeIndexIterator) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1042,6 +1078,7 @@ func (self *Tree) SubMirrorReverseEachBetweenIndex(key []byte, min, max *int, f 
 		subTree.MirrorReverseEachBetweenIndex(min, max, f)
 	}
 }
+
 func (self *Tree) SubMirrorEachBetweenIndex(key []byte, min, max *int, f TreeIndexIterator) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1049,6 +1086,7 @@ func (self *Tree) SubMirrorEachBetweenIndex(key []byte, min, max *int, f TreeInd
 		subTree.MirrorEachBetweenIndex(min, max, f)
 	}
 }
+
 func (self *Tree) SubReverseEachBetween(key, min, max []byte, mininc, maxinc bool, f TreeIterator) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1056,6 +1094,7 @@ func (self *Tree) SubReverseEachBetween(key, min, max []byte, mininc, maxinc boo
 		subTree.ReverseEachBetween(min, max, mininc, maxinc, f)
 	}
 }
+
 func (self *Tree) SubEachBetween(key, min, max []byte, mininc, maxinc bool, f TreeIterator) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1063,6 +1102,7 @@ func (self *Tree) SubEachBetween(key, min, max []byte, mininc, maxinc bool, f Tr
 		subTree.EachBetween(min, max, mininc, maxinc, f)
 	}
 }
+
 func (self *Tree) SubReverseEachBetweenIndex(key []byte, min, max *int, f TreeIndexIterator) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1070,6 +1110,7 @@ func (self *Tree) SubReverseEachBetweenIndex(key []byte, min, max *int, f TreeIn
 		subTree.ReverseEachBetweenIndex(min, max, f)
 	}
 }
+
 func (self *Tree) SubEachBetweenIndex(key []byte, min, max *int, f TreeIndexIterator) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1077,6 +1118,7 @@ func (self *Tree) SubEachBetweenIndex(key []byte, min, max *int, f TreeIndexIter
 		subTree.EachBetweenIndex(min, max, f)
 	}
 }
+
 func (self *Tree) SubPut(key, subKey []byte, byteValue []byte, timestamp int64) (oldBytes []byte, existed bool) {
 	self.lock.Lock()
 	defer self.lock.Unlock()
@@ -1097,6 +1139,7 @@ func (self *Tree) SubPut(key, subKey []byte, byteValue []byte, timestamp int64) 
 	})
 	return
 }
+
 func (self *Tree) SubDel(key, subKey []byte) (oldBytes []byte, existed bool) {
 	self.lock.Lock()
 	defer self.lock.Unlock()
@@ -1117,6 +1160,7 @@ func (self *Tree) SubDel(key, subKey []byte) (oldBytes []byte, existed bool) {
 	}
 	return
 }
+
 func (self *Tree) SubFakeDel(key, subKey []byte, timestamp int64) (oldBytes []byte, existed bool) {
 	self.lock.Lock()
 	defer self.lock.Unlock()
@@ -1171,11 +1215,13 @@ func (self *Tree) SubKill(key []byte) (deleted int) {
 	}
 	return
 }
+
 func (self *Tree) Finger(key []Nibble) *Print {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
 	return self.root.finger(&Print{}, key)
 }
+
 func (self *Tree) GetTimestamp(key []Nibble) (bValue []byte, timestamp int64, present bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1183,6 +1229,7 @@ func (self *Tree) GetTimestamp(key []Nibble) (bValue []byte, timestamp int64, pr
 	present = ex&byteValue != 0
 	return
 }
+
 func (self *Tree) putTimestamp(key []Nibble, bValue []byte, treeValue *Tree, nodeUse, insertUse int, expected, timestamp int64) (result bool, oldBytes []byte) {
 	if _, _, current, _ := self.root.get(key); current == expected {
 		self.dataTimestamp, result = timestamp, true
@@ -1190,6 +1237,7 @@ func (self *Tree) putTimestamp(key []Nibble, bValue []byte, treeValue *Tree, nod
 	}
 	return
 }
+
 func (self *Tree) PutTimestamp(key []Nibble, bValue []byte, present bool, expected, timestamp int64) (result bool) {
 	self.lock.Lock()
 	defer self.lock.Unlock()
@@ -1212,6 +1260,7 @@ func (self *Tree) PutTimestamp(key []Nibble, bValue []byte, present bool, expect
 	}
 	return
 }
+
 func (self *Tree) delTimestamp(key []Nibble, use int, expected int64) (result bool, oldBytes []byte) {
 	if _, _, current, _ := self.root.get(key); current == expected {
 		result = true
@@ -1219,6 +1268,7 @@ func (self *Tree) delTimestamp(key []Nibble, use int, expected int64) (result bo
 	}
 	return
 }
+
 func (self *Tree) DelTimestamp(key []Nibble, expected int64) (result bool) {
 	self.lock.Lock()
 	defer self.lock.Unlock()
@@ -1241,11 +1291,13 @@ func (self *Tree) subConfiguration(key []byte) (conf map[string]string, timestam
 	}
 	return
 }
+
 func (self *Tree) SubConfiguration(key []byte) (conf map[string]string, timestamp int64) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
 	return self.subConfiguration(key)
 }
+
 func (self *Tree) subConfigure(key []byte, conf map[string]string, timestamp int64) {
 	ripped := Rip(key)
 	_, subTree, subTreeTimestamp, ex := self.root.get(ripped)
@@ -1260,11 +1312,13 @@ func (self *Tree) subConfigure(key []byte, conf map[string]string, timestamp int
 		Timestamp:     timestamp,
 	})
 }
+
 func (self *Tree) SubConfigure(key []byte, conf map[string]string, timestamp int64) {
 	self.lock.Lock()
 	defer self.lock.Unlock()
 	self.subConfigure(key, conf, timestamp)
 }
+
 func (self *Tree) SubAddConfiguration(treeKey []byte, ts int64, key, value string) bool {
 	self.lock.Lock()
 	defer self.lock.Unlock()
@@ -1276,6 +1330,7 @@ func (self *Tree) SubAddConfiguration(treeKey []byte, ts int64, key, value strin
 	}
 	return false
 }
+
 func (self *Tree) SubFinger(key, subKey []Nibble) (result *Print) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1286,6 +1341,7 @@ func (self *Tree) SubFinger(key, subKey []Nibble) (result *Print) {
 	}
 	return
 }
+
 func (self *Tree) SubGetTimestamp(key, subKey []Nibble) (byteValue []byte, timestamp int64, present bool) {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -1294,6 +1350,7 @@ func (self *Tree) SubGetTimestamp(key, subKey []Nibble) (byteValue []byte, times
 	}
 	return
 }
+
 func (self *Tree) SubPutTimestamp(key, subKey []Nibble, bValue []byte, present bool, subExpected, subTimestamp int64) (result bool) {
 	self.lock.Lock()
 	defer self.lock.Unlock()
@@ -1316,6 +1373,7 @@ func (self *Tree) SubPutTimestamp(key, subKey []Nibble, bValue []byte, present b
 	}
 	return
 }
+
 func (self *Tree) SubDelTimestamp(key, subKey []Nibble, subExpected int64) (result bool) {
 	self.lock.Lock()
 	defer self.lock.Unlock()
@@ -1335,6 +1393,7 @@ func (self *Tree) SubDelTimestamp(key, subKey []Nibble, subExpected int64) (resu
 	}
 	return
 }
+
 func (self *Tree) SubClearTimestamp(key []Nibble, expected, timestamp int64) (deleted int) {
 	self.lock.Lock()
 	defer self.lock.Unlock()
@@ -1352,6 +1411,7 @@ func (self *Tree) SubClearTimestamp(key []Nibble, expected, timestamp int64) (de
 	}
 	return
 }
+
 func (self *Tree) SubKillTimestamp(key []Nibble, expected int64) (deleted int) {
 	self.lock.Lock()
 	defer self.lock.Unlock()

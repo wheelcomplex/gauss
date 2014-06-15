@@ -12,6 +12,7 @@ type SubValueRes struct {
 	Value  []byte
 	Exists bool
 }
+
 type SubValueIndexRes struct {
 	Key    []byte
 	SubKey []byte
@@ -19,42 +20,51 @@ type SubValueIndexRes struct {
 	Index  int
 	Exists bool
 }
+
 type SubValueOp struct {
 	Key    []byte
 	SubKey []byte
 	Value  []byte
 	Sync   bool
 }
+
 type SubKeyOp struct {
 	Key    []byte
 	SubKey []byte
 	Sync   bool
 }
+
 type SubKeyReq struct {
 	Key    []byte
 	SubKey []byte
 }
+
 type SubIndex struct {
 	Key   []byte
 	Index int
 }
+
 type ValueOp struct {
 	Key   []byte
 	Value []byte
 	Sync  bool
 }
+
 type ValueRes struct {
 	Key    []byte
 	Value  []byte
 	Exists bool
 }
+
 type KeyOp struct {
 	Key  []byte
 	Sync bool
 }
+
 type KeyReq struct {
 	Key []byte
 }
+
 type KeyRange struct {
 	Key    []byte
 	Min    []byte
@@ -62,22 +72,26 @@ type KeyRange struct {
 	MinInc bool
 	MaxInc bool
 }
+
 type IndexRange struct {
 	Key      []byte
 	MinIndex *int
 	MaxIndex *int
 }
+
 type PageRange struct {
 	Key     []byte
 	From    []byte
 	FromInc bool
 	Len     int
 }
+
 type SubConf struct {
 	TreeKey []byte
 	Key     string
 	Value   string
 }
+
 type Conf struct {
 	Key   string
 	Value string
@@ -94,6 +108,7 @@ func (self *JSONApi) convert(items []common.Item, result *[]ValueRes) {
 		})
 	}
 }
+
 func (self *JSONApi) forwardUnlessMe(cmd string, key []byte, in, out interface{}) (forwarded bool, err error) {
 	succ := (*Node)(self).node.GetSuccessorFor(key)
 	if succ.Addr != (*Node)(self).node.GetBroadcastAddr() {
@@ -106,10 +121,12 @@ func (self *JSONApi) Clear(x Nothing, y *Nothing) (err error) {
 	(*Node)(self).Clear()
 	return nil
 }
+
 func (self *JSONApi) Nodes(x Nothing, result *common.Remotes) (err error) {
 	*result = (*Node)(self).node.GetNodes()
 	return nil
 }
+
 func (self *JSONApi) SubDel(d SubKeyOp, n *Nothing) (err error) {
 	data := common.Item{
 		Key:    d.Key,
@@ -123,6 +140,7 @@ func (self *JSONApi) SubDel(d SubKeyOp, n *Nothing) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) SubClear(d SubKeyOp, n *Nothing) (err error) {
 	data := common.Item{
 		Key:    d.Key,
@@ -136,6 +154,7 @@ func (self *JSONApi) SubClear(d SubKeyOp, n *Nothing) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) SubPut(d SubValueOp, n *Nothing) (err error) {
 	data := common.Item{
 		Key:    d.Key,
@@ -150,6 +169,7 @@ func (self *JSONApi) SubPut(d SubValueOp, n *Nothing) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) Del(d KeyOp, n *Nothing) (err error) {
 	data := common.Item{
 		Key:  d.Key,
@@ -162,6 +182,7 @@ func (self *JSONApi) Del(d KeyOp, n *Nothing) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) Put(d ValueOp, n *Nothing) (err error) {
 	data := common.Item{
 		Key:   d.Key,
@@ -175,6 +196,7 @@ func (self *JSONApi) Put(d ValueOp, n *Nothing) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) MirrorCount(kr KeyRange, result *int) (err error) {
 	r := common.Range{
 		Key:    kr.Key,
@@ -189,6 +211,7 @@ func (self *JSONApi) MirrorCount(kr KeyRange, result *int) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) Count(kr KeyRange, result *int) (err error) {
 	r := common.Range{
 		Key:    kr.Key,
@@ -203,6 +226,7 @@ func (self *JSONApi) Count(kr KeyRange, result *int) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) Next(kr KeyReq, result *ValueRes) (err error) {
 	k, v, e := (*Node)(self).client().Next(kr.Key)
 	*result = ValueRes{
@@ -212,6 +236,7 @@ func (self *JSONApi) Next(kr KeyReq, result *ValueRes) (err error) {
 	}
 	return nil
 }
+
 func (self *JSONApi) Prev(kr KeyReq, result *ValueRes) (err error) {
 	k, v, e := (*Node)(self).client().Prev(kr.Key)
 	*result = ValueRes{
@@ -221,6 +246,7 @@ func (self *JSONApi) Prev(kr KeyReq, result *ValueRes) (err error) {
 	}
 	return nil
 }
+
 func (self *JSONApi) SubGet(k SubKeyReq, result *SubValueRes) (err error) {
 	data := common.Item{
 		Key:    k.Key,
@@ -239,6 +265,7 @@ func (self *JSONApi) SubGet(k SubKeyReq, result *SubValueRes) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) Get(k KeyReq, result *ValueRes) (err error) {
 	data := common.Item{
 		Key: k.Key,
@@ -255,10 +282,12 @@ func (self *JSONApi) Get(k KeyReq, result *ValueRes) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) Size(x Nothing, result *int) (err error) {
 	*result = (*Node)(self).Size()
 	return nil
 }
+
 func (self *JSONApi) SubSize(k KeyReq, result *int) (err error) {
 	key := k.Key
 	var f bool
@@ -267,18 +296,22 @@ func (self *JSONApi) SubSize(k KeyReq, result *int) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) Owned(x Nothing, result *int) (err error) {
 	*result = (*Node)(self).Owned()
 	return nil
 }
+
 func (self *JSONApi) Describe(x Nothing, result *common.DHashDescription) (err error) {
 	*result = (*Node)(self).Description()
 	return nil
 }
+
 func (self *JSONApi) DescribeTree(x Nothing, result *string) (err error) {
 	*result = (*Node)(self).DescribeTree()
 	return nil
 }
+
 func (self *JSONApi) PrevIndex(i SubIndex, result *SubValueIndexRes) (err error) {
 	data := common.Item{
 		Key:   i.Key,
@@ -298,6 +331,7 @@ func (self *JSONApi) PrevIndex(i SubIndex, result *SubValueIndexRes) (err error)
 	}
 	return
 }
+
 func (self *JSONApi) MirrorPrevIndex(i SubIndex, result *SubValueIndexRes) (err error) {
 	data := common.Item{
 		Key:   i.Key,
@@ -317,6 +351,7 @@ func (self *JSONApi) MirrorPrevIndex(i SubIndex, result *SubValueIndexRes) (err 
 	}
 	return
 }
+
 func (self *JSONApi) MirrorNextIndex(i SubIndex, result *SubValueIndexRes) (err error) {
 	data := common.Item{
 		Key:   i.Key,
@@ -336,6 +371,7 @@ func (self *JSONApi) MirrorNextIndex(i SubIndex, result *SubValueIndexRes) (err 
 	}
 	return
 }
+
 func (self *JSONApi) NextIndex(i SubIndex, result *SubValueIndexRes) (err error) {
 	data := common.Item{
 		Key:   i.Key,
@@ -355,6 +391,7 @@ func (self *JSONApi) NextIndex(i SubIndex, result *SubValueIndexRes) (err error)
 	}
 	return
 }
+
 func (self *JSONApi) MirrorReverseIndexOf(i SubKeyReq, result *common.Index) (err error) {
 	data := common.Item{
 		Key:    i.Key,
@@ -366,6 +403,7 @@ func (self *JSONApi) MirrorReverseIndexOf(i SubKeyReq, result *common.Index) (er
 	}
 	return
 }
+
 func (self *JSONApi) MirrorIndexOf(i SubKeyReq, result *common.Index) (err error) {
 	data := common.Item{
 		Key:    i.Key,
@@ -377,6 +415,7 @@ func (self *JSONApi) MirrorIndexOf(i SubKeyReq, result *common.Index) (err error
 	}
 	return
 }
+
 func (self *JSONApi) ReverseIndexOf(i SubKeyReq, result *common.Index) (err error) {
 	data := common.Item{
 		Key:    i.Key,
@@ -388,6 +427,7 @@ func (self *JSONApi) ReverseIndexOf(i SubKeyReq, result *common.Index) (err erro
 	}
 	return
 }
+
 func (self *JSONApi) IndexOf(i SubKeyReq, result *common.Index) (err error) {
 	data := common.Item{
 		Key:    i.Key,
@@ -399,6 +439,7 @@ func (self *JSONApi) IndexOf(i SubKeyReq, result *common.Index) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) SubMirrorPrev(k SubKeyReq, result *SubValueRes) (err error) {
 	data := common.Item{
 		Key:    k.Key,
@@ -417,6 +458,7 @@ func (self *JSONApi) SubMirrorPrev(k SubKeyReq, result *SubValueRes) (err error)
 	}
 	return
 }
+
 func (self *JSONApi) SubMirrorNext(k SubKeyReq, result *SubValueRes) (err error) {
 	data := common.Item{
 		Key:    k.Key,
@@ -435,6 +477,7 @@ func (self *JSONApi) SubMirrorNext(k SubKeyReq, result *SubValueRes) (err error)
 	}
 	return
 }
+
 func (self *JSONApi) SubPrev(k SubKeyReq, result *SubValueRes) (err error) {
 	data := common.Item{
 		Key:    k.Key,
@@ -453,6 +496,7 @@ func (self *JSONApi) SubPrev(k SubKeyReq, result *SubValueRes) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) SubNext(k SubKeyReq, result *SubValueRes) (err error) {
 	data := common.Item{
 		Key:    k.Key,
@@ -471,6 +515,7 @@ func (self *JSONApi) SubNext(k SubKeyReq, result *SubValueRes) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) MirrorFirst(k KeyReq, result *SubValueRes) (err error) {
 	data := common.Item{
 		Key: k.Key,
@@ -488,6 +533,7 @@ func (self *JSONApi) MirrorFirst(k KeyReq, result *SubValueRes) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) MirrorLast(k KeyReq, result *SubValueRes) (err error) {
 	data := common.Item{
 		Key: k.Key,
@@ -505,6 +551,7 @@ func (self *JSONApi) MirrorLast(k KeyReq, result *SubValueRes) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) First(k KeyReq, result *SubValueRes) (err error) {
 	data := common.Item{
 		Key: k.Key,
@@ -522,6 +569,7 @@ func (self *JSONApi) First(k KeyReq, result *SubValueRes) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) Last(k KeyReq, result *SubValueRes) (err error) {
 	data := common.Item{
 		Key: k.Key,
@@ -539,6 +587,7 @@ func (self *JSONApi) Last(k KeyReq, result *SubValueRes) (err error) {
 	}
 	return
 }
+
 func (self *JSONApi) MirrorReverseSlice(kr KeyRange, result *[]ValueRes) (err error) {
 	r := common.Range{
 		Key:    kr.Key,
@@ -555,6 +604,7 @@ func (self *JSONApi) MirrorReverseSlice(kr KeyRange, result *[]ValueRes) (err er
 	self.convert(items, result)
 	return
 }
+
 func (self *JSONApi) MirrorSlice(kr KeyRange, result *[]ValueRes) (err error) {
 	r := common.Range{
 		Key:    kr.Key,
@@ -571,6 +621,7 @@ func (self *JSONApi) MirrorSlice(kr KeyRange, result *[]ValueRes) (err error) {
 	self.convert(items, result)
 	return
 }
+
 func (self *JSONApi) MirrorSliceIndex(ir IndexRange, result *[]ValueRes) (err error) {
 	var mi int
 	var ma int
@@ -595,6 +646,7 @@ func (self *JSONApi) MirrorSliceIndex(ir IndexRange, result *[]ValueRes) (err er
 	self.convert(items, result)
 	return
 }
+
 func (self *JSONApi) MirrorReverseSliceIndex(ir IndexRange, result *[]ValueRes) (err error) {
 	var mi int
 	var ma int
@@ -619,6 +671,7 @@ func (self *JSONApi) MirrorReverseSliceIndex(ir IndexRange, result *[]ValueRes) 
 	self.convert(items, result)
 	return
 }
+
 func (self *JSONApi) MirrorSliceLen(pr PageRange, result *[]ValueRes) (err error) {
 	r := common.Range{
 		Key:    pr.Key,
@@ -634,6 +687,7 @@ func (self *JSONApi) MirrorSliceLen(pr PageRange, result *[]ValueRes) (err error
 	self.convert(items, result)
 	return
 }
+
 func (self *JSONApi) MirrorReverseSliceLen(pr PageRange, result *[]ValueRes) (err error) {
 	r := common.Range{
 		Key:    pr.Key,
@@ -649,6 +703,7 @@ func (self *JSONApi) MirrorReverseSliceLen(pr PageRange, result *[]ValueRes) (er
 	self.convert(items, result)
 	return
 }
+
 func (self *JSONApi) ReverseSlice(kr KeyRange, result *[]ValueRes) (err error) {
 	r := common.Range{
 		Key:    kr.Key,
@@ -665,6 +720,7 @@ func (self *JSONApi) ReverseSlice(kr KeyRange, result *[]ValueRes) (err error) {
 	self.convert(items, result)
 	return
 }
+
 func (self *JSONApi) Slice(kr KeyRange, result *[]ValueRes) (err error) {
 	r := common.Range{
 		Key:    kr.Key,
@@ -681,6 +737,7 @@ func (self *JSONApi) Slice(kr KeyRange, result *[]ValueRes) (err error) {
 	self.convert(items, result)
 	return
 }
+
 func (self *JSONApi) SliceIndex(ir IndexRange, result *[]ValueRes) (err error) {
 	var mi int
 	var ma int
@@ -705,6 +762,7 @@ func (self *JSONApi) SliceIndex(ir IndexRange, result *[]ValueRes) (err error) {
 	self.convert(items, result)
 	return
 }
+
 func (self *JSONApi) ReverseSliceIndex(ir IndexRange, result *[]ValueRes) (err error) {
 	var mi int
 	var ma int
@@ -729,6 +787,7 @@ func (self *JSONApi) ReverseSliceIndex(ir IndexRange, result *[]ValueRes) (err e
 	self.convert(items, result)
 	return
 }
+
 func (self *JSONApi) SliceLen(pr PageRange, result *[]ValueRes) (err error) {
 	r := common.Range{
 		Key:    pr.Key,
@@ -744,6 +803,7 @@ func (self *JSONApi) SliceLen(pr PageRange, result *[]ValueRes) (err error) {
 	self.convert(items, result)
 	return
 }
+
 func (self *JSONApi) ReverseSliceLen(pr PageRange, result *[]ValueRes) (err error) {
 	r := common.Range{
 		Key:    pr.Key,
@@ -759,6 +819,7 @@ func (self *JSONApi) ReverseSliceLen(pr PageRange, result *[]ValueRes) (err erro
 	self.convert(items, result)
 	return
 }
+
 func (self *JSONApi) SetExpression(expr setop.SetExpression, items *[]setop.SetOpResult) (err error) {
 	if expr.Op == nil {
 		var err error
@@ -777,6 +838,7 @@ func (self *JSONApi) AddConfiguration(co Conf, x *Nothing) (err error) {
 	(*Node)(self).AddConfiguration(c)
 	return nil
 }
+
 func (self *JSONApi) SubAddConfiguration(co SubConf, x *Nothing) (err error) {
 	c := common.ConfItem{
 		TreeKey: co.TreeKey,
@@ -786,11 +848,13 @@ func (self *JSONApi) SubAddConfiguration(co SubConf, x *Nothing) (err error) {
 	(*Node)(self).SubAddConfiguration(c)
 	return nil
 }
+
 func (self *JSONApi) Configuration(x Nothing, result *common.Conf) (err error) {
 	*result = common.Conf{}
 	(*result).Data, (*result).Timestamp = (*Node)(self).tree.Configuration()
 	return nil
 }
+
 func (self *JSONApi) SubConfiguration(k KeyReq, result *common.Conf) (err error) {
 	key := k.Key
 	*result = common.Conf{TreeKey: key}

@@ -39,6 +39,7 @@ func (self testmap) put(k, v string) {
 	})
 	self.m[k] = v
 }
+
 func (self testmap) del(k string) {
 	self.l.Lock()
 	defer self.l.Unlock()
@@ -47,6 +48,7 @@ func (self testmap) del(k string) {
 	})
 	delete(self.m, k)
 }
+
 func (self testmap) operator() Operate {
 	return func(o Op) {
 		self.l.Lock()

@@ -16,6 +16,7 @@ type dilation struct {
 func newDilation(delta int64) dilation {
 	return dilation{delta, time.Now().UnixNano()}
 }
+
 func (self dilation) effect() (effect int64, done bool) {
 	absDelta := self.delta
 	if absDelta < 0 {
@@ -43,6 +44,7 @@ func (self *dilations) delta() (sum int64) {
 	}
 	return
 }
+
 func (self *dilations) effect() (temporaryEffect, permanentEffect int64) {
 	newContent := make([]dilation, 0, len(self.content))
 	for _, dilation := range self.content {
@@ -57,6 +59,7 @@ func (self *dilations) effect() (temporaryEffect, permanentEffect int64) {
 	self.content = newContent
 	return
 }
+
 func (self *dilations) add(delta int64) {
 	self.content = append(self.content, newDilation(delta))
 }

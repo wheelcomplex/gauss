@@ -35,84 +35,104 @@ func (self *Node) Describe() string {
 func (self *Node) DescribeTree() string {
 	return self.tree.Describe()
 }
+
 func (self *Node) client() *client.Conn {
 	return client.NewConnRing(common.NewRingNodes(self.node.Nodes()))
 }
+
 func (self *Node) Get(data common.Item, result *common.Item) error {
 	*result = data
 	result.Value, result.Timestamp, result.Exists = self.tree.Get(data.Key)
 	return nil
 }
+
 func (self *Node) Prev(data common.Item, result *common.Item) error {
 	*result = data
 	result.Key, result.Value, result.Timestamp, result.Exists = self.tree.Prev(data.Key)
 	return nil
 }
+
 func (self *Node) Next(data common.Item, result *common.Item) error {
 	*result = data
 	result.Key, result.Value, result.Timestamp, result.Exists = self.tree.Next(data.Key)
 	return nil
 }
+
 func (self *Node) RingHash(x int, ringHash *[]byte) error {
 	*ringHash = self.node.RingHash()
 	return nil
 }
+
 func (self *Node) MirrorCount(r common.Range, result *int) error {
 	*result = self.tree.SubMirrorSizeBetween(r.Key, r.Min, r.Max, r.MinInc, r.MaxInc)
 	return nil
 }
+
 func (self *Node) Count(r common.Range, result *int) error {
 	*result = self.tree.SubSizeBetween(r.Key, r.Min, r.Max, r.MinInc, r.MaxInc)
 	return nil
 }
+
 func (self *Node) MirrorLast(data common.Item, result *common.Item) error {
 	result.Key, result.Value, result.Timestamp, result.Exists = self.tree.SubMirrorLast(data.Key)
 	return nil
 }
+
 func (self *Node) MirrorFirst(data common.Item, result *common.Item) error {
 	result.Key, result.Value, result.Timestamp, result.Exists = self.tree.SubMirrorFirst(data.Key)
 	return nil
 }
+
 func (self *Node) Last(data common.Item, result *common.Item) error {
 	result.Key, result.Value, result.Timestamp, result.Exists = self.tree.SubLast(data.Key)
 	return nil
 }
+
 func (self *Node) First(data common.Item, result *common.Item) error {
 	result.Key, result.Value, result.Timestamp, result.Exists = self.tree.SubFirst(data.Key)
 	return nil
 }
+
 func (self *Node) MirrorPrevIndex(data common.Item, result *common.Item) error {
 	result.Key, result.Value, result.Timestamp, result.Index, result.Exists = self.tree.SubMirrorPrevIndex(data.Key, data.Index)
 	return nil
 }
+
 func (self *Node) MirrorNextIndex(data common.Item, result *common.Item) error {
 	result.Key, result.Value, result.Timestamp, result.Index, result.Exists = self.tree.SubMirrorNextIndex(data.Key, data.Index)
 	return nil
 }
+
 func (self *Node) PrevIndex(data common.Item, result *common.Item) error {
 	result.Key, result.Value, result.Timestamp, result.Index, result.Exists = self.tree.SubPrevIndex(data.Key, data.Index)
 	return nil
 }
+
 func (self *Node) NextIndex(data common.Item, result *common.Item) error {
 	result.Key, result.Value, result.Timestamp, result.Index, result.Exists = self.tree.SubNextIndex(data.Key, data.Index)
 	return nil
 }
+
 func (self *Node) SubMirrorPrev(data common.Item, result *common.Item) error {
 	result.Key, result.Value, result.Timestamp, result.Exists = self.tree.SubMirrorPrev(data.Key, data.SubKey)
 	return nil
 }
+
 func (self *Node) SubMirrorNext(data common.Item, result *common.Item) error {
 	result.Key, result.Value, result.Timestamp, result.Exists = self.tree.SubMirrorNext(data.Key, data.SubKey)
 	return nil
 }
+
 func (self *Node) SubPrev(data common.Item, result *common.Item) error {
 	result.Key, result.Value, result.Timestamp, result.Exists = self.tree.SubPrev(data.Key, data.SubKey)
 	return nil
 }
+
 func (self *Node) SubNext(data common.Item, result *common.Item) error {
 	result.Key, result.Value, result.Timestamp, result.Exists = self.tree.SubNext(data.Key, data.SubKey)
 	return nil
 }
+
 func (self *Node) SliceIndex(r common.Range, items *[]common.Item) error {
 	min := &r.MinIndex
 	max := &r.MaxIndex
@@ -133,6 +153,7 @@ func (self *Node) SliceIndex(r common.Range, items *[]common.Item) error {
 	})
 	return nil
 }
+
 func (self *Node) ReverseSliceIndex(r common.Range, items *[]common.Item) error {
 	min := &r.MinIndex
 	max := &r.MaxIndex
@@ -153,6 +174,7 @@ func (self *Node) ReverseSliceIndex(r common.Range, items *[]common.Item) error 
 	})
 	return nil
 }
+
 func (self *Node) ReverseSlice(r common.Range, items *[]common.Item) error {
 	self.tree.SubReverseEachBetween(r.Key, r.Min, r.Max, r.MinInc, r.MaxInc, func(key []byte, value []byte, version int64) bool {
 		*items = append(*items, common.Item{
@@ -164,6 +186,7 @@ func (self *Node) ReverseSlice(r common.Range, items *[]common.Item) error {
 	})
 	return nil
 }
+
 func (self *Node) Slice(r common.Range, items *[]common.Item) error {
 	self.tree.SubEachBetween(r.Key, r.Min, r.Max, r.MinInc, r.MaxInc, func(key []byte, value []byte, version int64) bool {
 		*items = append(*items, common.Item{
@@ -175,6 +198,7 @@ func (self *Node) Slice(r common.Range, items *[]common.Item) error {
 	})
 	return nil
 }
+
 func (self *Node) SliceLen(r common.Range, items *[]common.Item) error {
 	self.tree.SubEachBetween(r.Key, r.Min, nil, r.MinInc, false, func(key []byte, value []byte, version int64) bool {
 		*items = append(*items, common.Item{
@@ -186,6 +210,7 @@ func (self *Node) SliceLen(r common.Range, items *[]common.Item) error {
 	})
 	return nil
 }
+
 func (self *Node) ReverseSliceLen(r common.Range, items *[]common.Item) error {
 	self.tree.SubReverseEachBetween(r.Key, nil, r.Max, false, r.MaxInc, func(key []byte, value []byte, version int64) bool {
 		*items = append(*items, common.Item{
@@ -197,6 +222,7 @@ func (self *Node) ReverseSliceLen(r common.Range, items *[]common.Item) error {
 	})
 	return nil
 }
+
 func (self *Node) MirrorSliceIndex(r common.Range, items *[]common.Item) error {
 	min := &r.MinIndex
 	max := &r.MaxIndex
@@ -217,6 +243,7 @@ func (self *Node) MirrorSliceIndex(r common.Range, items *[]common.Item) error {
 	})
 	return nil
 }
+
 func (self *Node) MirrorReverseSliceIndex(r common.Range, items *[]common.Item) error {
 	min := &r.MinIndex
 	max := &r.MaxIndex
@@ -237,6 +264,7 @@ func (self *Node) MirrorReverseSliceIndex(r common.Range, items *[]common.Item) 
 	})
 	return nil
 }
+
 func (self *Node) MirrorReverseSlice(r common.Range, items *[]common.Item) error {
 	self.tree.SubMirrorReverseEachBetween(r.Key, r.Min, r.Max, r.MinInc, r.MaxInc, func(key []byte, value []byte, version int64) bool {
 		*items = append(*items, common.Item{
@@ -248,6 +276,7 @@ func (self *Node) MirrorReverseSlice(r common.Range, items *[]common.Item) error
 	})
 	return nil
 }
+
 func (self *Node) MirrorSlice(r common.Range, items *[]common.Item) error {
 	self.tree.SubMirrorEachBetween(r.Key, r.Min, r.Max, r.MinInc, r.MaxInc, func(key []byte, value []byte, version int64) bool {
 		*items = append(*items, common.Item{
@@ -259,6 +288,7 @@ func (self *Node) MirrorSlice(r common.Range, items *[]common.Item) error {
 	})
 	return nil
 }
+
 func (self *Node) MirrorSliceLen(r common.Range, items *[]common.Item) error {
 	self.tree.SubMirrorEachBetween(r.Key, r.Min, nil, r.MinInc, false, func(key []byte, value []byte, version int64) bool {
 		*items = append(*items, common.Item{
@@ -270,6 +300,7 @@ func (self *Node) MirrorSliceLen(r common.Range, items *[]common.Item) error {
 	})
 	return nil
 }
+
 func (self *Node) MirrorReverseSliceLen(r common.Range, items *[]common.Item) error {
 	self.tree.SubMirrorReverseEachBetween(r.Key, nil, r.Max, false, r.MaxInc, func(key []byte, value []byte, version int64) bool {
 		*items = append(*items, common.Item{
@@ -281,47 +312,58 @@ func (self *Node) MirrorReverseSliceLen(r common.Range, items *[]common.Item) er
 	})
 	return nil
 }
+
 func (self *Node) MirrorReverseIndexOf(data common.Item, result *common.Index) error {
 	result.N, result.Existed = self.tree.SubMirrorReverseIndexOf(data.Key, data.SubKey)
 	return nil
 }
+
 func (self *Node) MirrorIndexOf(data common.Item, result *common.Index) error {
 	result.N, result.Existed = self.tree.SubMirrorIndexOf(data.Key, data.SubKey)
 	return nil
 }
+
 func (self *Node) ReverseIndexOf(data common.Item, result *common.Index) error {
 	result.N, result.Existed = self.tree.SubReverseIndexOf(data.Key, data.SubKey)
 	return nil
 }
+
 func (self *Node) IndexOf(data common.Item, result *common.Index) error {
 	result.N, result.Existed = self.tree.SubIndexOf(data.Key, data.SubKey)
 	return nil
 }
+
 func (self *Node) SubGet(data common.Item, result *common.Item) error {
 	*result = data
 	result.Value, result.Timestamp, result.Exists = self.tree.SubGet(data.Key, data.SubKey)
 	return nil
 }
+
 func (self *Node) SubClear(data common.Item) error {
 	data.TTL, data.Timestamp = self.node.Redundancy(), self.timer.ContinuousTime()
 	return self.subClear(data)
 }
+
 func (self *Node) SubDel(data common.Item) error {
 	data.TTL, data.Timestamp = self.node.Redundancy(), self.timer.ContinuousTime()
 	return self.subDel(data)
 }
+
 func (self *Node) SubPut(data common.Item) error {
 	data.TTL, data.Timestamp = self.node.Redundancy(), self.timer.ContinuousTime()
 	return self.subPut(data)
 }
+
 func (self *Node) Del(data common.Item) error {
 	data.TTL, data.Timestamp = self.node.Redundancy(), self.timer.ContinuousTime()
 	return self.del(data)
 }
+
 func (self *Node) Put(data common.Item) error {
 	data.TTL, data.Timestamp = self.node.Redundancy(), self.timer.ContinuousTime()
 	return self.put(data)
 }
+
 func (self *Node) forwardOperation(data common.Item, operation string) {
 	data.TTL--
 	successor := self.node.GetSuccessor()
@@ -342,9 +384,11 @@ func (self *Node) forwardOperation(data common.Item, operation string) {
 		err = successor.Call(operation, data, &x)
 	}
 }
+
 func (self *Node) Clear() {
 	self.tree.Clear(self.timer.ContinuousTime())
 }
+
 func (self *Node) subClear(data common.Item) error {
 	if data.TTL > 1 {
 		if data.Sync {
@@ -356,6 +400,7 @@ func (self *Node) subClear(data common.Item) error {
 	self.tree.SubClear(data.Key, data.Timestamp)
 	return nil
 }
+
 func (self *Node) subDel(data common.Item) error {
 	if data.TTL > 1 {
 		if data.Sync {
@@ -367,6 +412,7 @@ func (self *Node) subDel(data common.Item) error {
 	self.tree.SubFakeDel(data.Key, data.SubKey, data.Timestamp)
 	return nil
 }
+
 func (self *Node) subPut(data common.Item) error {
 	if data.TTL > 1 {
 		if data.Sync {
@@ -378,6 +424,7 @@ func (self *Node) subPut(data common.Item) error {
 	self.tree.SubPut(data.Key, data.SubKey, data.Value, data.Timestamp)
 	return nil
 }
+
 func (self *Node) del(data common.Item) error {
 	if data.TTL > 1 {
 		if data.Sync {
@@ -389,6 +436,7 @@ func (self *Node) del(data common.Item) error {
 	self.tree.FakeDel(data.Key, data.Timestamp)
 	return nil
 }
+
 func (self *Node) put(data common.Item) error {
 	if data.TTL > 1 {
 		if data.Sync {
@@ -400,6 +448,7 @@ func (self *Node) put(data common.Item) error {
 	self.tree.Put(data.Key, data.Value, data.Timestamp)
 	return nil
 }
+
 func (self *Node) Size() int {
 	pred := self.node.GetPredecessor()
 	me := self.node.Remote()
@@ -414,10 +463,12 @@ func (self *Node) Size() int {
 	}
 	return self.tree.Size()
 }
+
 func (self *Node) SubSize(key []byte, result *int) error {
 	*result = self.tree.SubSize(key)
 	return nil
 }
+
 func (self *Node) SetExpression(expr setop.SetExpression, items *[]setop.SetOpResult) (err error) {
 	if expr.Dest != nil {
 		if expr.Op.Merge == setop.Append {
@@ -455,9 +506,11 @@ func (self *Node) SetExpression(expr setop.SetExpression, items *[]setop.SetOpRe
 	})
 	return
 }
+
 func (self *Node) AddConfiguration(c common.ConfItem) {
 	self.tree.AddConfiguration(self.timer.ContinuousTime(), c.Key, c.Value)
 }
+
 func (self *Node) forwardConfiguration(c common.ConfItem, operation string) {
 	c.TTL--
 	successor := self.node.GetSuccessor()
@@ -469,6 +522,7 @@ func (self *Node) forwardConfiguration(c common.ConfItem, operation string) {
 		err = successor.Call(operation, c, &x)
 	}
 }
+
 func (self *Node) subAddConfiguration(c common.ConfItem) {
 	if self.tree.SubAddConfiguration(c.TreeKey, c.Timestamp, c.Key, c.Value) {
 		if c.TTL > 1 {
@@ -476,15 +530,18 @@ func (self *Node) subAddConfiguration(c common.ConfItem) {
 		}
 	}
 }
+
 func (self *Node) SubAddConfiguration(c common.ConfItem) {
 	c.TTL, c.Timestamp = self.node.Redundancy(), self.timer.ContinuousTime()
 	self.subAddConfiguration(c)
 }
+
 func (self *Node) Configuration(x int, result *common.Conf) error {
 	*result = common.Conf{}
 	(*result).Data, (*result).Timestamp = self.tree.Configuration()
 	return nil
 }
+
 func (self *Node) SubConfiguration(key []byte, result *common.Conf) error {
 	*result = common.Conf{TreeKey: key}
 	(*result).Data, (*result).Timestamp = self.tree.SubConfiguration(key)

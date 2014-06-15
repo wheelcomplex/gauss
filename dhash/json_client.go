@@ -49,6 +49,7 @@ func (self JSONClient) call(action string, params, result interface{}) {
 	}
 	ioutil.ReadAll(resp.Body)
 }
+
 func (self JSONClient) SSubPut(key, subKey, value []byte) {
 	var x Nothing
 	item := SubValueOp{
@@ -59,6 +60,7 @@ func (self JSONClient) SSubPut(key, subKey, value []byte) {
 	}
 	self.call("SubPut", item, &x)
 }
+
 func (self JSONClient) SubPut(key, subKey, value []byte) {
 	var x Nothing
 	item := SubValueOp{
@@ -68,6 +70,7 @@ func (self JSONClient) SubPut(key, subKey, value []byte) {
 	}
 	self.call("SubPut", item, &x)
 }
+
 func (self JSONClient) SPut(key, value []byte) {
 	var x Nothing
 	item := ValueOp{
@@ -77,6 +80,7 @@ func (self JSONClient) SPut(key, value []byte) {
 	}
 	self.call("Put", item, &x)
 }
+
 func (self JSONClient) Put(key, value []byte) {
 	var x Nothing
 	item := ValueOp{
@@ -85,6 +89,7 @@ func (self JSONClient) Put(key, value []byte) {
 	}
 	self.call("Put", item, &x)
 }
+
 func (self JSONClient) SubClear(key []byte) {
 	var x Nothing
 	item := KeyOp{
@@ -92,6 +97,7 @@ func (self JSONClient) SubClear(key []byte) {
 	}
 	self.call("SubClear", item, &x)
 }
+
 func (self JSONClient) SSubClear(key []byte) {
 	var x Nothing
 	item := KeyOp{
@@ -100,6 +106,7 @@ func (self JSONClient) SSubClear(key []byte) {
 	}
 	self.call("SubClear", item, &x)
 }
+
 func (self JSONClient) SubDel(key, subKey []byte) {
 	var x Nothing
 	item := SubKeyOp{
@@ -108,6 +115,7 @@ func (self JSONClient) SubDel(key, subKey []byte) {
 	}
 	self.call("SubDel", item, &x)
 }
+
 func (self JSONClient) SSubDel(key, subKey []byte) {
 	var x Nothing
 	item := SubKeyOp{
@@ -117,6 +125,7 @@ func (self JSONClient) SSubDel(key, subKey []byte) {
 	}
 	self.call("SubDel", item, &x)
 }
+
 func (self JSONClient) SDel(key []byte) {
 	var x Nothing
 	item := KeyOp{
@@ -125,6 +134,7 @@ func (self JSONClient) SDel(key []byte) {
 	}
 	self.call("Del", item, &x)
 }
+
 func (self JSONClient) Del(key []byte) {
 	var x Nothing
 	item := KeyOp{
@@ -132,6 +142,7 @@ func (self JSONClient) Del(key []byte) {
 	}
 	self.call("Del", item, &x)
 }
+
 func (self JSONClient) MirrorReverseIndexOf(key, subKey []byte) (index int, existed bool) {
 	item := SubKeyReq{
 		Key:    key,
@@ -141,6 +152,7 @@ func (self JSONClient) MirrorReverseIndexOf(key, subKey []byte) (index int, exis
 	self.call("MirrorReverseIndexOf", item, &result)
 	return result.N, result.Existed
 }
+
 func (self JSONClient) MirrorIndexOf(key, subKey []byte) (index int, existed bool) {
 	item := SubKeyReq{
 		Key:    key,
@@ -150,6 +162,7 @@ func (self JSONClient) MirrorIndexOf(key, subKey []byte) (index int, existed boo
 	self.call("MirrorIndexOf", item, &result)
 	return result.N, result.Existed
 }
+
 func (self JSONClient) ReverseIndexOf(key, subKey []byte) (index int, existed bool) {
 	item := SubKeyReq{
 		Key:    key,
@@ -159,6 +172,7 @@ func (self JSONClient) ReverseIndexOf(key, subKey []byte) (index int, existed bo
 	self.call("ReverseIndexOf", item, &result)
 	return result.N, result.Existed
 }
+
 func (self JSONClient) IndexOf(key, subKey []byte) (index int, existed bool) {
 	item := SubKeyReq{
 		Key:    key,
@@ -168,6 +182,7 @@ func (self JSONClient) IndexOf(key, subKey []byte) (index int, existed bool) {
 	self.call("IndexOf", item, &result)
 	return result.N, result.Existed
 }
+
 func (self JSONClient) Next(key []byte) (nextKey, nextValue []byte, existed bool) {
 	item := KeyReq{
 		Key: key,
@@ -176,6 +191,7 @@ func (self JSONClient) Next(key []byte) (nextKey, nextValue []byte, existed bool
 	self.call("Next", item, &result)
 	return result.Key, result.Value, result.Exists
 }
+
 func (self JSONClient) Prev(key []byte) (prevKey, prevValue []byte, existed bool) {
 	item := KeyReq{
 		Key: key,
@@ -184,6 +200,7 @@ func (self JSONClient) Prev(key []byte) (prevKey, prevValue []byte, existed bool
 	self.call("Prev", item, &result)
 	return result.Key, result.Value, result.Exists
 }
+
 func (self JSONClient) MirrorCount(key, min, max []byte, mininc, maxinc bool) (result int) {
 	item := KeyRange{
 		Key:    key,
@@ -195,6 +212,7 @@ func (self JSONClient) MirrorCount(key, min, max []byte, mininc, maxinc bool) (r
 	self.call("MirrorCount", item, &result)
 	return result
 }
+
 func (self JSONClient) Count(key, min, max []byte, mininc, maxinc bool) (result int) {
 	item := KeyRange{
 		Key:    key,
@@ -206,6 +224,7 @@ func (self JSONClient) Count(key, min, max []byte, mininc, maxinc bool) (result 
 	self.call("Count", item, &result)
 	return result
 }
+
 func (self JSONClient) MirrorNextIndex(key []byte, index int) (foundKey, foundValue []byte, foundIndex int, existed bool) {
 	item := SubIndex{
 		Key:   key,
@@ -215,6 +234,7 @@ func (self JSONClient) MirrorNextIndex(key []byte, index int) (foundKey, foundVa
 	self.call("MirrorNextIndex", item, &result)
 	return result.Key, result.Value, result.Index, result.Exists
 }
+
 func (self JSONClient) MirrorPrevIndex(key []byte, index int) (foundKey, foundValue []byte, foundIndex int, existed bool) {
 	item := SubIndex{
 		Key:   key,
@@ -224,6 +244,7 @@ func (self JSONClient) MirrorPrevIndex(key []byte, index int) (foundKey, foundVa
 	self.call("MirrorPrevIndex", item, &result)
 	return result.Key, result.Value, result.Index, result.Exists
 }
+
 func (self JSONClient) NextIndex(key []byte, index int) (foundKey, foundValue []byte, foundIndex int, existed bool) {
 	item := SubIndex{
 		Key:   key,
@@ -233,6 +254,7 @@ func (self JSONClient) NextIndex(key []byte, index int) (foundKey, foundValue []
 	self.call("NextIndex", item, &result)
 	return result.Key, result.Value, result.Index, result.Exists
 }
+
 func (self JSONClient) PrevIndex(key []byte, index int) (foundKey, foundValue []byte, foundIndex int, existed bool) {
 	item := SubIndex{
 		Key:   key,
@@ -242,6 +264,7 @@ func (self JSONClient) PrevIndex(key []byte, index int) (foundKey, foundValue []
 	self.call("PrevIndex", item, &result)
 	return result.Key, result.Value, result.Index, result.Exists
 }
+
 func (self JSONClient) MirrorReverseSliceIndex(key []byte, min, max *int) (result []common.Item) {
 	item := IndexRange{
 		Key:      key,
@@ -251,6 +274,7 @@ func (self JSONClient) MirrorReverseSliceIndex(key []byte, min, max *int) (resul
 	self.call("MirrorReverseSliceIndex", item, &result)
 	return result
 }
+
 func (self JSONClient) MirrorSliceIndex(key []byte, min, max *int) (result []common.Item) {
 	item := IndexRange{
 		Key:      key,
@@ -260,6 +284,7 @@ func (self JSONClient) MirrorSliceIndex(key []byte, min, max *int) (result []com
 	self.call("MirrorSliceIndex", item, &result)
 	return result
 }
+
 func (self JSONClient) MirrorReverseSlice(key, min, max []byte, mininc, maxinc bool) (result []common.Item) {
 	item := KeyRange{
 		Key:    key,
@@ -271,6 +296,7 @@ func (self JSONClient) MirrorReverseSlice(key, min, max []byte, mininc, maxinc b
 	self.call("MirrorReverseSlice", item, &result)
 	return result
 }
+
 func (self JSONClient) MirrorSlice(key, min, max []byte, mininc, maxinc bool) (result []common.Item) {
 	item := KeyRange{
 		Key:    key,
@@ -282,6 +308,7 @@ func (self JSONClient) MirrorSlice(key, min, max []byte, mininc, maxinc bool) (r
 	self.call("MirrorSlice", item, &result)
 	return result
 }
+
 func (self JSONClient) MirrorSliceLen(key, min []byte, mininc bool, maxRes int) (result []common.Item) {
 	item := PageRange{
 		Key:     key,
@@ -292,6 +319,7 @@ func (self JSONClient) MirrorSliceLen(key, min []byte, mininc bool, maxRes int) 
 	self.call("MirrorSliceLen", item, &result)
 	return result
 }
+
 func (self JSONClient) MirrorReverseSliceLen(key, max []byte, maxinc bool, maxRes int) (result []common.Item) {
 	item := PageRange{
 		Key:     key,
@@ -302,6 +330,7 @@ func (self JSONClient) MirrorReverseSliceLen(key, max []byte, maxinc bool, maxRe
 	self.call("MirrorReverseSliceLen", item, &result)
 	return result
 }
+
 func (self JSONClient) ReverseSliceIndex(key []byte, min, max *int) (result []common.Item) {
 	item := IndexRange{
 		Key:      key,
@@ -311,6 +340,7 @@ func (self JSONClient) ReverseSliceIndex(key []byte, min, max *int) (result []co
 	self.call("ReverseSliceIndex", item, &result)
 	return result
 }
+
 func (self JSONClient) SliceIndex(key []byte, min, max *int) (result []common.Item) {
 	item := IndexRange{
 		Key:      key,
@@ -320,6 +350,7 @@ func (self JSONClient) SliceIndex(key []byte, min, max *int) (result []common.It
 	self.call("SliceIndex", item, &result)
 	return result
 }
+
 func (self JSONClient) ReverseSlice(key, min, max []byte, mininc, maxinc bool) (result []common.Item) {
 	item := KeyRange{
 		Key:    key,
@@ -331,6 +362,7 @@ func (self JSONClient) ReverseSlice(key, min, max []byte, mininc, maxinc bool) (
 	self.call("ReverseSlice", item, &result)
 	return result
 }
+
 func (self JSONClient) Slice(key, min, max []byte, mininc, maxinc bool) (result []common.Item) {
 	item := KeyRange{
 		Key:    key,
@@ -342,6 +374,7 @@ func (self JSONClient) Slice(key, min, max []byte, mininc, maxinc bool) (result 
 	self.call("Slice", item, &result)
 	return result
 }
+
 func (self JSONClient) SliceLen(key, min []byte, mininc bool, maxRes int) (result []common.Item) {
 	item := PageRange{
 		Key:     key,
@@ -352,6 +385,7 @@ func (self JSONClient) SliceLen(key, min []byte, mininc bool, maxRes int) (resul
 	self.call("SliceLen", item, &result)
 	return result
 }
+
 func (self JSONClient) ReverseSliceLen(key, max []byte, maxinc bool, maxRes int) (result []common.Item) {
 	item := PageRange{
 		Key:     key,
@@ -362,6 +396,7 @@ func (self JSONClient) ReverseSliceLen(key, max []byte, maxinc bool, maxRes int)
 	self.call("ReverseSliceLen", item, &result)
 	return result
 }
+
 func (self JSONClient) SubMirrorPrev(key, subKey []byte) (prevKey, prevValue []byte, existed bool) {
 	item := SubKeyReq{
 		Key:    key,
@@ -371,6 +406,7 @@ func (self JSONClient) SubMirrorPrev(key, subKey []byte) (prevKey, prevValue []b
 	self.call("SubMirrorPrev", item, &result)
 	return result.Key, result.Value, result.Exists
 }
+
 func (self JSONClient) SubMirrorNext(key, subKey []byte) (nextKey, nextValue []byte, existed bool) {
 	item := SubKeyReq{
 		Key:    key,
@@ -380,6 +416,7 @@ func (self JSONClient) SubMirrorNext(key, subKey []byte) (nextKey, nextValue []b
 	self.call("SubMirrorNext", item, &result)
 	return result.Key, result.Value, result.Exists
 }
+
 func (self JSONClient) SubPrev(key, subKey []byte) (prevKey, prevValue []byte, existed bool) {
 	item := SubKeyReq{
 		Key:    key,
@@ -389,6 +426,7 @@ func (self JSONClient) SubPrev(key, subKey []byte) (prevKey, prevValue []byte, e
 	self.call("SubPrev", item, &result)
 	return result.Key, result.Value, result.Exists
 }
+
 func (self JSONClient) SubNext(key, subKey []byte) (nextKey, nextValue []byte, existed bool) {
 	item := SubKeyReq{
 		Key:    key,
@@ -398,6 +436,7 @@ func (self JSONClient) SubNext(key, subKey []byte) (nextKey, nextValue []byte, e
 	self.call("SubNext", item, &result)
 	return result.Key, result.Value, result.Exists
 }
+
 func (self JSONClient) MirrorLast(key []byte) (lastKey, lastValue []byte, existed bool) {
 	item := KeyReq{
 		Key: key,
@@ -406,6 +445,7 @@ func (self JSONClient) MirrorLast(key []byte) (lastKey, lastValue []byte, existe
 	self.call("MirrorLast", item, &result)
 	return result.Key, result.Value, result.Exists
 }
+
 func (self JSONClient) MirrorFirst(key []byte) (firstKey, firstValue []byte, existed bool) {
 	item := KeyReq{
 		Key: key,
@@ -414,6 +454,7 @@ func (self JSONClient) MirrorFirst(key []byte) (firstKey, firstValue []byte, exi
 	self.call("MirrorFirst", item, &result)
 	return result.Key, result.Value, result.Exists
 }
+
 func (self JSONClient) Last(key []byte) (lastKey, lastValue []byte, existed bool) {
 	item := KeyReq{
 		Key: key,
@@ -422,6 +463,7 @@ func (self JSONClient) Last(key []byte) (lastKey, lastValue []byte, existed bool
 	self.call("Last", item, &result)
 	return result.Key, result.Value, result.Exists
 }
+
 func (self JSONClient) First(key []byte) (firstKey, firstValue []byte, existed bool) {
 	item := KeyReq{
 		Key: key,
@@ -430,6 +472,7 @@ func (self JSONClient) First(key []byte) (firstKey, firstValue []byte, existed b
 	self.call("First", item, &result)
 	return result.Key, result.Value, result.Exists
 }
+
 func (self JSONClient) SubGet(key, subKey []byte) (value []byte, existed bool) {
 	item := SubKeyReq{
 		Key:    key,
@@ -439,6 +482,7 @@ func (self JSONClient) SubGet(key, subKey []byte) (value []byte, existed bool) {
 	self.call("SubGet", item, &result)
 	return result.Value, result.Exists
 }
+
 func (self JSONClient) Get(key []byte) (value []byte, existed bool) {
 	item := KeyReq{
 		Key: key,
@@ -447,18 +491,22 @@ func (self JSONClient) Get(key []byte) (value []byte, existed bool) {
 	self.call("Get", item, &result)
 	return result.Value, result.Exists
 }
+
 func (self JSONClient) SubSize(key []byte) (result int) {
 	self.call("SubSize", KeyReq{Key: key}, &result)
 	return result
 }
+
 func (self JSONClient) Size() (result int) {
 	self.call("Size", nil, &result)
 	return result
 }
+
 func (self JSONClient) SetExpression(expr setop.SetExpression) (result []setop.SetOpResult) {
 	self.call("SetExpression", expr, &result)
 	return
 }
+
 func (self JSONClient) AddConfiguration(key, value string) {
 	conf := SubConf{
 		Key:   key,
@@ -467,6 +515,7 @@ func (self JSONClient) AddConfiguration(key, value string) {
 	var x Nothing
 	self.call("AddConfiguration", conf, &x)
 }
+
 func (self JSONClient) SubAddConfiguration(treeKey []byte, key, value string) {
 	conf := SubConf{
 		TreeKey: treeKey,

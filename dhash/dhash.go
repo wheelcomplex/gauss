@@ -160,23 +160,29 @@ func (self *Node) AddMigrateListener(l MigrateListener) {
 	defer self.lock.Unlock()
 	self.migrateListeners = append(self.migrateListeners, l)
 }
+
 func (self *Node) AddSyncListener(l SyncListener) {
 	self.lock.Lock()
 	defer self.lock.Unlock()
 	self.syncListeners = append(self.syncListeners, l)
 }
+
 func (self *Node) hasState(s int32) bool {
 	return atomic.LoadInt32(&self.state) == s
 }
+
 func (self *Node) changeState(old, neu int32) bool {
 	return atomic.CompareAndSwapInt32(&self.state, old, neu)
 }
+
 func (self *Node) GetListenAddr() string {
 	return self.node.GetListenAddr()
 }
+
 func (self *Node) GetBroadcastAddr() string {
 	return self.node.GetBroadcastAddr()
 }
+
 func (self *Node) AddChangeListener(f common.RingChangeListener) {
 	self.node.AddChangeListener(f)
 }
@@ -205,6 +211,7 @@ func (self *Node) Start() (err error) {
 	self.startJson()
 	return
 }
+
 func (self *Node) triggerSyncListeners(source, dest common.Remote, pulled, pushed int) {
 	self.lock.RLock()
 	newListeners := make([]SyncListener, 0, len(self.syncListeners))
@@ -220,6 +227,7 @@ func (self *Node) triggerSyncListeners(source, dest common.Remote, pulled, pushe
 	defer self.lock.Unlock()
 	self.syncListeners = newListeners
 }
+
 func (self *Node) sync() {
 	var pulled int
 	var pushed int
@@ -240,18 +248,21 @@ func (self *Node) sync() {
 		nextSuccessor = self.node.GetSuccessorForRemote(nextSuccessor)
 	}
 }
+
 func (self *Node) syncPeriodically() {
 	for self.hasState(started) {
 		self.sync()
 		time.Sleep(syncInterval)
 	}
 }
+
 func (self *Node) cleanPeriodically() {
 	for self.hasState(started) {
 		self.clean()
 		time.Sleep(syncInterval)
 	}
 }
+
 func (self *Node) triggerMigrateListeners(oldPos, newPos []byte) {
 	self.lock.RLock()
 	newListeners := make([]MigrateListener, 0, len(self.migrateListeners))
@@ -267,6 +278,7 @@ func (self *Node) triggerMigrateListeners(oldPos, newPos []byte) {
 	defer self.lock.Unlock()
 	self.migrateListeners = newListeners
 }
+
 func (self *Node) changePosition(newPos []byte) {
 	for len(newPos) < murmur.Size {
 		newPos = append(newPos, 0)
@@ -278,15 +290,18 @@ func (self *Node) changePosition(newPos []byte) {
 		self.triggerMigrateListeners(oldPos, newPos)
 	}
 }
+
 func (self *Node) isLeader() bool {
 	return bytes.Compare(self.node.GetPredecessor().Pos, self.node.GetPosition()) > 0
 }
+
 func (self *Node) migratePeriodically() {
 	for self.hasState(started) {
 		self.migrate()
 		time.Sleep(syncInterval)
 	}
 }
+
 func (self *Node) migrate() {
 	lastAllowedChange := time.Now().Add(-1 * migrateWaitFactor * syncInterval).UnixNano()
 	if lastAllowedChange > common.Max64(atomic.LoadInt64(&self.lastSync), atomic.LoadInt64(&self.lastReroute), atomic.LoadInt64(&self.lastMigrate)) {
@@ -324,6 +339,7 @@ func (self *Node) migrate() {
 		}
 	}
 }
+
 func (self *Node) circularNext(key []byte) (nextKey []byte, existed bool) {
 	if nextKey, existed = self.tree.NextMarker(key); existed {
 		return
@@ -335,6 +351,7 @@ func (self *Node) circularNext(key []byte) (nextKey []byte, existed bool) {
 	nextKey, existed = self.tree.NextMarker(nextKey)
 	return
 }
+
 func (self *Node) owners(key []byte) (owners common.Remotes, isOwner bool) {
 	owners = append(owners, self.node.GetSuccessorFor(key))
 	if owners[0].Addr == self.node.GetBroadcastAddr() {
@@ -348,6 +365,7 @@ func (self *Node) owners(key []byte) (owners common.Remotes, isOwner bool) {
 	}
 	return
 }
+
 func (self *Node) triggerCleanListeners(source, dest common.Remote, cleaned, pushed int) {
 	self.lock.RLock()
 	newListeners := make([]CleanListener, 0, len(self.cleanListeners))
@@ -363,6 +381,7 @@ func (self *Node) triggerCleanListeners(source, dest common.Remote, cleaned, pus
 	defer self.lock.Unlock()
 	self.cleanListeners = newListeners
 }
+
 func (self *Node) clean() {
 	selfRemote := self.node.Remote()
 	var cleaned int
@@ -389,16 +408,19 @@ func (self *Node) clean() {
 		}
 	}
 }
+
 func (self *Node) MustStart() *Node {
 	if err := self.Start(); err != nil {
 		panic(err)
 	}
 	return self
 }
+
 func (self *Node) MustJoin(addr string) {
 	self.timer.Conform(remotePeer(common.Remote{Addr: addr}))
 	self.node.MustJoin(addr)
 }
+
 func (self *Node) Time() time.Time {
 	return time.Unix(0, self.timer.ContinuousTime())
 }

@@ -69,11 +69,13 @@ func (self *Node) Export(name string, api interface{}) error {
 	}
 	return fmt.Errorf("%v can only export when in state 'created'")
 }
+
 func (self *Node) AddCommListener(f CommListener) {
 	self.metaLock.Lock()
 	defer self.metaLock.Unlock()
 	self.commListeners = append(self.commListeners, f)
 }
+
 func (self *Node) triggerCommListeners(source, dest common.Remote, typ string) {
 	self.metaLock.RLock()
 	newListeners := make([]CommListener, 0, len(self.commListeners))
@@ -89,9 +91,11 @@ func (self *Node) triggerCommListeners(source, dest common.Remote, typ string) {
 	defer self.metaLock.Unlock()
 	self.commListeners = newListeners
 }
+
 func (self *Node) AddChangeListener(f common.RingChangeListener) {
 	self.ring.AddChangeListener(f)
 }
+
 func (self *Node) SetPosition(position []byte) *Node {
 	self.metaLock.Lock()
 	self.position = make([]byte, len(position))
@@ -117,6 +121,7 @@ func (self *Node) Redundancy() int {
 func (self *Node) CountNodes() int {
 	return self.ring.Size()
 }
+
 func (self *Node) GetPosition() (result []byte) {
 	self.metaLock.RLock()
 	defer self.metaLock.RUnlock()
@@ -124,16 +129,19 @@ func (self *Node) GetPosition() (result []byte) {
 	copy(result, self.position)
 	return
 }
+
 func (self *Node) GetListenAddr() string {
 	self.metaLock.RLock()
 	defer self.metaLock.RUnlock()
 	return self.listenAddr
 }
+
 func (self *Node) GetBroadcastAddr() string {
 	self.metaLock.RLock()
 	defer self.metaLock.RUnlock()
 	return self.broadcastAddr
 }
+
 func (self *Node) String() string {
 	return fmt.Sprintf("<%v@%v>", common.HexEncode(self.GetPosition()), self.GetBroadcastAddr())
 }
@@ -150,14 +158,17 @@ func (self *Node) Describe() string {
 func (self *Node) hasState(s int32) bool {
 	return atomic.LoadInt32(&self.state) == s
 }
+
 func (self *Node) changeState(old, neu int32) bool {
 	return atomic.CompareAndSwapInt32(&self.state, old, neu)
 }
+
 func (self *Node) getListener() *net.TCPListener {
 	self.metaLock.RLock()
 	defer self.metaLock.RUnlock()
 	return self.listener
 }
+
 func (self *Node) setListener(l *net.TCPListener) {
 	self.metaLock.Lock()
 	defer self.metaLock.Unlock()
@@ -175,6 +186,7 @@ func (self *Node) Stop() {
 		self.getListener().Close()
 	}
 }
+
 func (self *Node) MustStart() {
 	if err := self.Start(); err != nil {
 		panic(err)
@@ -228,6 +240,7 @@ func (self *Node) notifyPeriodically() {
 		time.Sleep(common.PingInterval)
 	}
 }
+
 func (self *Node) pingPeriodically() {
 	for self.hasState(started) {
 		self.pingPredecessor()
@@ -259,6 +272,7 @@ func (self *Node) Ping(ping PingPack) (me common.Remote) {
 	}
 	return
 }
+
 func (self *Node) pingPredecessor() {
 	pred := self.GetPredecessor()
 	ping := PingPack{
@@ -289,6 +303,7 @@ func (self *Node) Notify(caller common.Remote) common.Remote {
 	self.ring.Add(caller)
 	return self.GetPredecessor()
 }
+
 func (self *Node) notifySuccessor() {
 	succ := self.GetSuccessor()
 	var otherPred common.Remote
@@ -305,6 +320,7 @@ func (self *Node) notifySuccessor() {
 		}
 	}
 }
+
 func (self *Node) MustJoin(addr string) {
 	if err := self.Join(addr); err != nil {
 		panic(err)

@@ -123,6 +123,7 @@ func (self *node) gc(prefix []Nibble, now int64) (result *node) {
 	}
 	return
 }
+
 func (self *node) describe(indent int, buffer *bytes.Buffer) {
 	if self == nil {
 		return

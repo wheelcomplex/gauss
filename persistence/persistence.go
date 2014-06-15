@@ -123,9 +123,11 @@ type logfiles []*logfile
 func (self logfiles) Len() int {
 	return len(self)
 }
+
 func (self logfiles) Less(i, j int) bool {
 	return self[i].timestamp.Before(self[j].timestamp)
 }
+
 func (self logfiles) Swap(i, j int) {
 	self[i], self[j] = self[j], self[i]
 }
@@ -166,6 +168,7 @@ func NewLogger(dir string) *Logger {
 func (self *Logger) hasState(s int32) bool {
 	return atomic.LoadInt32(&self.state) == s
 }
+
 func (self *Logger) changeState(old, neu int32) bool {
 	return atomic.CompareAndSwapInt32(&self.state, old, neu)
 }
@@ -176,7 +179,7 @@ func (self *Logger) setSuffix(s string) *Logger {
 }
 
 // Limit will limit the size of the last logfile to maxSize bytes.
-// When the last logfile is bigger than maxSize, it will merge the last snapshot and any logfile created after it into a new snapshot, 
+// When the last logfile is bigger than maxSize, it will merge the last snapshot and any logfile created after it into a new snapshot,
 // and start a new logfile to continue. All this will happen transparently in a separate goroutine.
 func (self *Logger) Limit(maxSize int64) *Logger {
 	self.maxSize = maxSize
