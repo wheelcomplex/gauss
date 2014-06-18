@@ -3,7 +3,7 @@ package dhash
 import (
 	"bytes"
 	"fmt"
-	"github.com/purak/gauss/client"
+	"github.com/purak/gauss/gconn"
 	"github.com/purak/gauss/common"
 	"github.com/zond/setop"
 	"sync/atomic"
@@ -36,8 +36,8 @@ func (self *Node) DescribeTree() string {
 	return self.tree.Describe()
 }
 
-func (self *Node) client() *client.Conn {
-	return client.NewConnRing(common.NewRingNodes(self.node.Nodes()))
+func (self *Node) client() *gconn.Conn {
+	return gconn.NewConnRing(common.NewRingNodes(self.node.Nodes()))
 }
 
 func (self *Node) Get(data common.Item, result *common.Item) error {
