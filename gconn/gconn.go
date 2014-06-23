@@ -84,12 +84,15 @@ func MustConn(addr string) (result *Conn) {
 	}
 	return
 }
+
 func (self *Conn) hasState(s int32) bool {
 	return atomic.LoadInt32(&self.state) == s
 }
+
 func (self *Conn) changeState(old, neu int32) bool {
 	return atomic.CompareAndSwapInt32(&self.state, old, neu)
 }
+
 func (self *Conn) removeNode(node common.Remote) {
 	self.ring.Remove(node)
 	self.Reconnect()
@@ -99,6 +102,7 @@ func (self *Conn) removeNode(node common.Remote) {
 func (self *Conn) Nodes() common.Remotes {
 	return self.ring.Nodes()
 }
+
 func (self *Conn) update() {
 	myRingHash := self.ring.Hash()
 	var otherRingHash []byte
@@ -116,6 +120,7 @@ func (self *Conn) update() {
 		self.ring.SetNodes(newNodes)
 	}
 }
+
 func (self *Conn) updateRegularly() {
 	for self.hasState(started) {
 		self.update()
@@ -160,6 +165,7 @@ func (self *Conn) subClear(key []byte, sync bool) {
 		self.subClear(key, sync)
 	}
 }
+
 func (self *Conn) subDel(key, subKey []byte, sync bool) {
 	data := common.Item{
 		Key:    key,
@@ -173,6 +179,7 @@ func (self *Conn) subDel(key, subKey []byte, sync bool) {
 		self.subDel(key, subKey, sync)
 	}
 }
+
 func (self *Conn) subPutVia(succ *common.Remote, key, subKey, value []byte, sync bool) {
 	data := common.Item{
 		Key:    key,
@@ -188,6 +195,7 @@ func (self *Conn) subPutVia(succ *common.Remote, key, subKey, value []byte, sync
 		self.subPutVia(succ, key, subKey, value, sync)
 	}
 }
+
 func (self *Conn) subPut(key, subKey, value []byte, sync bool) {
 	_, _, successor := self.ring.Remotes(key)
 	self.subPutVia(successor, key, subKey, value, sync)

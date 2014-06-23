@@ -29,6 +29,7 @@ func NewRing() *Ring {
 		lock: new(sync.RWMutex),
 	}
 }
+
 func NewRingNodes(nodes Remotes) *Ring {
 	return &Ring{
 		lock:  new(sync.RWMutex),
@@ -96,6 +97,7 @@ func (self *Ring) SetNodes(nodes Remotes) {
 	self.nodes = nodes.Clone()
 	self.sendChanges(h)
 }
+
 func (self *Ring) sendChanges(oldHash []byte) {
 	if bytes.Compare(oldHash, self.hash()) != 0 {
 		var newListeners []RingChangeListener
@@ -122,14 +124,17 @@ func (self *Ring) Nodes() Remotes {
 func (self *Ring) Clone() *Ring {
 	return NewRingNodes(self.Nodes())
 }
+
 func (self *Ring) Size() int {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
 	return len(self.nodes)
 }
+
 func (self *Ring) Equal(other *Ring) bool {
 	return self.Nodes().Equal(other.Nodes())
 }
+
 func (self *Ring) predecessorIndex(r Remote) int {
 	i := sort.Search(len(self.nodes), func(i int) bool {
 		return !self.nodes[i].Less(r)
@@ -139,6 +144,7 @@ func (self *Ring) predecessorIndex(r Remote) int {
 	}
 	return len(self.nodes) - 1
 }
+
 func (self *Ring) Predecessor(r Remote) Remote {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
@@ -150,6 +156,7 @@ func (self *Ring) Predecessor(r Remote) Remote {
 	}
 	return self.nodes[self.predecessorIndex(r)]
 }
+
 func (self *Ring) successorIndex(r Remote) int {
 	i := sort.Search(len(self.nodes), func(i int) bool {
 		return r.Less(self.nodes[i])
@@ -159,6 +166,7 @@ func (self *Ring) successorIndex(r Remote) int {
 	}
 	return 0
 }
+
 func (self *Ring) Successor(r Remote) Remote {
 	self.lock.RLock()
 	defer self.lock.RUnlock()
