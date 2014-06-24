@@ -49,6 +49,7 @@ func (self *Ring) Random() Remote {
 	defer self.lock.RUnlock()
 	return self.nodes[rand.Int()%len(self.nodes)].Clone()
 }
+
 func (self *Ring) hash() []byte {
 	hasher := murmur.New()
 	for _, node := range self.nodes {

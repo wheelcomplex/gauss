@@ -17,6 +17,7 @@ type Switchboard struct {
 func newSwitchboard() *Switchboard {
 	return &Switchboard{new(sync.RWMutex), make(map[string]*rpc.Client)}
 }
+
 func (self *Switchboard) client(addr string) (client *rpc.Client, err error) {
 	self.lock.RLock()
 	client, ok := self.clients[addr]
@@ -31,6 +32,7 @@ func (self *Switchboard) client(addr string) (client *rpc.Client, err error) {
 	}
 	return
 }
+
 func (self *Switchboard) Go(addr, service string, args, reply interface{}) (call *rpc.Call) {
 	if client, err := self.client(addr); err != nil {
 		call = &rpc.Call{
@@ -46,9 +48,11 @@ func (self *Switchboard) Go(addr, service string, args, reply interface{}) (call
 	}
 	return
 }
+
 func (self *Switchboard) Call(addr, service string, args, reply interface{}) (err error) {
 	var client *rpc.Client
 	if client, err = self.client(addr); err != nil {
+
 		return
 	}
 	if err = client.Call(service, args, reply); err != nil {
@@ -63,10 +67,10 @@ func (self *Switchboard) Call(addr, service string, args, reply interface{}) (er
 }
 
 func (self *Switchboard) Close(addr string) error {
-  client, err := self.client(addr)
-  if err != nil {
-    return err
-  }
-  
-  return client.Close()
+	client, err := self.client(addr)
+	if err != nil {
+		return err
+	}
+
+	return client.Close()
 }
