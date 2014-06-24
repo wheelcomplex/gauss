@@ -6,6 +6,8 @@
 # Folders
 _obj
 _test
+docs
+logs
 
 # Architecture specific extensions/prefixes
 *.[568vq]
@@ -20,20 +22,4 @@ _cgo_export.*
 _testmain.go
 
 *.exe
-*.kch
-*~
-shard/test?
-bench1
-dhash/profile/memprofile
-dhash/profile/cpuprofile
-dhash/profile/profile
-radix/profile/memprofile
-radix/profile/cpuprofile
-radix/profile/profile
-.*.swp
-god_cli/god_cli
-persistence/test*
-radix/benchmarklogs
-127.0.0.1_*
-127.0.0.1:*
-
+*.test
