@@ -2,9 +2,10 @@ package discord
 
 import (
 	"fmt"
-	"github.com/purak/gauss/common"
 	"testing"
 	"time"
+
+	"github.com/purak/gauss/common"
 )
 
 func TestStartup(t *testing.T) {

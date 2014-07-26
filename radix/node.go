@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"encoding/hex"
 	"fmt"
-	"github.com/purak/gauss/murmur"
 	"strings"
 	"time"
+
+	"github.com/purak/gauss/murmur"
 )
 
 const (

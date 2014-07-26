@@ -4,14 +4,15 @@ import (
 	"bytes"
 	"encoding/hex"
 	"fmt"
-	"github.com/purak/gauss/common"
-	"github.com/purak/gauss/murmur"
 	"math/big"
 	"math/rand"
 	"reflect"
 	"runtime"
 	"testing"
 	"time"
+
+	"github.com/purak/gauss/common"
+	"github.com/purak/gauss/murmur"
 )
 
 var benchmarkTestTree *Tree
@@ -384,8 +385,8 @@ func TestSyncRandomLimits(t *testing.T) {
 	var tree2 *Tree
 	var tree3 *Tree
 	var s *Sync
-	for fromIndex, _ := range keys {
-		for toIndex, _ := range keys {
+	for fromIndex := range keys {
+		for toIndex := range keys {
 			if fromIndex != toIndex {
 				fromKey = keys[fromIndex]
 				toKey = keys[toIndex]

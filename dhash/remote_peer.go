@@ -1,8 +1,9 @@
 package dhash
 
 import (
-	"github.com/purak/gauss/common"
 	"time"
+
+	"github.com/purak/gauss/common"
 )
 
 type remotePeer common.Remote

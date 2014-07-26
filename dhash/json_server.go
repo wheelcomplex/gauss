@@ -3,11 +3,8 @@ package dhash
 // TODO: This code is a piece of shit. Remove gorilla/mux dependency.
 
 import (
-	"code.google.com/p/go.net/websocket"
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/purak/gauss/common"
 	"io"
 	"net"
 	"net/http"
@@ -17,6 +14,10 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"code.google.com/p/go.net/websocket"
+	"github.com/gorilla/mux"
+	"github.com/purak/gauss/common"
 )
 
 const (

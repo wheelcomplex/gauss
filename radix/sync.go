@@ -2,6 +2,7 @@ package radix
 
 import (
 	"bytes"
+
 	"github.com/purak/gauss/common"
 )
 

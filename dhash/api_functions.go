@@ -3,11 +3,12 @@ package dhash
 import (
 	"bytes"
 	"fmt"
-	"github.com/purak/gauss/gconn"
-	"github.com/purak/gauss/common"
-	"github.com/zond/setop"
 	"sync/atomic"
 	"time"
+
+	"github.com/purak/gauss/common"
+	"github.com/purak/gauss/gconn"
+	"github.com/zond/setop"
 )
 
 // Description will return a current description of the node.

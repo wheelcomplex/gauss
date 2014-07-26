@@ -3,11 +3,12 @@ package common
 import (
 	"bytes"
 	"fmt"
-	"github.com/purak/gauss/murmur"
 	"math/big"
 	"math/rand"
 	"sort"
 	"sync"
+
+	"github.com/purak/gauss/murmur"
 )
 
 // RingChangeListener is a function listening to changes in a Ring

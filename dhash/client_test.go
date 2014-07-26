@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/purak/gauss/gconn"
 	"github.com/purak/gauss/common"
 	"github.com/purak/gauss/murmur"
+	"github.com/zond/god/client"
 	"github.com/zond/setop"
 )
 

@@ -3,10 +3,11 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"github.com/purak/gauss/murmur"
-	"github.com/purak/gauss/radix"
 	"os"
 	"runtime/pprof"
+
+	"github.com/purak/gauss/murmur"
+	"github.com/purak/gauss/radix"
 )
 
 func main() {

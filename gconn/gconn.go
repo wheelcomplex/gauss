@@ -3,12 +3,13 @@ package gconn
 import (
 	"bytes"
 	"fmt"
-	"github.com/purak/gauss/common"
-	"github.com/zond/setop"
 	"net/rpc"
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/purak/gauss/common"
+	"github.com/zond/setop"
 )
 
 const (
@@ -23,7 +24,7 @@ func findKeys(op *setop.SetOp) (result map[string]bool) {
 		if source.Key != nil {
 			result[string(source.Key)] = true
 		} else {
-			for key, _ := range findKeys(source.SetOp) {
+			for key := range findKeys(source.SetOp) {
 				result[key] = true
 			}
 		}
@@ -1005,7 +1006,7 @@ func (self *Conn) SetExpression(expr setop.SetExpression) (result []setop.SetOpR
 	biggestSize := 0
 	var thisSize int
 
-	for key, _ := range findKeys(expr.Op) {
+	for key := range findKeys(expr.Op) {
 		thisSize = self.SubSize([]byte(key))
 		if biggestKey == nil {
 			biggestKey = []byte(key)

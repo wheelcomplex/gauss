@@ -1,10 +1,11 @@
 package dhash
 
 import (
-	"github.com/purak/gauss/common"
-	"github.com/purak/gauss/radix"
 	"sync/atomic"
 	"time"
+
+	"github.com/purak/gauss/common"
+	"github.com/purak/gauss/radix"
 )
 
 type HashTreeItem struct {

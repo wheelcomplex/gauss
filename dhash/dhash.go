@@ -3,14 +3,15 @@ package dhash
 import (
 	"bytes"
 	"fmt"
+	"sync"
+	"sync/atomic"
+	"time"
+
 	"github.com/purak/gauss/common"
 	"github.com/purak/gauss/discord"
 	"github.com/purak/gauss/murmur"
 	"github.com/purak/gauss/radix"
 	"github.com/purak/gauss/timenet"
-	"sync"
-	"sync/atomic"
-	"time"
 )
 
 // SyncListener is a function listening for sync events where one dhash.Node has pushed items to, and pulled items from, another dhash.Node.
@@ -140,7 +141,7 @@ func (self *Node) hasCommListeners() bool {
 }
 func (self *Node) triggerCommListeners(comm Comm) {
 	self.lock.RLock()
-	for lc, _ := range self.commListeners {
+	for lc := range self.commListeners {
 		self.lock.RUnlock()
 		select {
 		case lc.channel <- comm:

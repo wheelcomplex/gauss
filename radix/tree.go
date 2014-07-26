@@ -4,11 +4,12 @@ import (
 	"bytes"
 	"encoding/hex"
 	"fmt"
+	"math/big"
+	"sync/atomic"
+
 	"github.com/purak/gauss/common"
 	"github.com/purak/gauss/murmur"
 	"github.com/purak/gauss/persistence"
-	"math/big"
-	"sync/atomic"
 )
 
 // NaiveTimer is a Timer that just provides the current system time.

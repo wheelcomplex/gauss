@@ -2,6 +2,7 @@ package dhash
 
 import (
 	"bytes"
+
 	"github.com/purak/gauss/common"
 	"github.com/purak/gauss/radix"
 	"github.com/zond/setop"

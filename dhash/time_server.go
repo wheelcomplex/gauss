@@ -1,8 +1,9 @@
 package dhash
 
 import (
-	"github.com/purak/gauss/timenet"
 	"time"
+
+	"github.com/purak/gauss/timenet"
 )
 
 type timerServer timenet.Timer

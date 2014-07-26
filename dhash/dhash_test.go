@@ -3,12 +3,13 @@ package dhash
 import (
 	"bytes"
 	"fmt"
-	"github.com/purak/gauss/common"
 	"os"
 	"runtime"
 	"sort"
 	"testing"
 	"time"
+
+	"github.com/purak/gauss/common"
 )
 
 type dhashAry []*Node
@@ -78,7 +79,7 @@ func testPut(t *testing.T, dhashes []*Node) {
 	}
 	common.AssertWithin(t, func() (string, bool) {
 		haves := make(map[int]bool)
-		for index, _ := range dhashes {
+		for index := range dhashes {
 			count := countHaving(t, dhashes, []byte{byte(index + 100)}, []byte{byte(index + 100)})
 			haves[count] = true
 		}

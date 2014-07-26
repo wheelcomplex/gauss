@@ -60,7 +60,7 @@ func Stitch(b []Nibble) (result []byte) {
 		return nil
 	}
 	result = make([]byte, len(b)/parts)
-	for i, _ := range result {
+	for i := range result {
 		for j := 0; j < parts; j++ {
 			result[i] += byte(b[(i*parts)+j] << byte((parts-j-1)*(8/parts)))
 		}

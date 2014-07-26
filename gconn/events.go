@@ -3,6 +3,7 @@ package gconn
 import (
 	"bytes"
 	_ "fmt"
+
 	"github.com/zond/gotomic"
 )
 
