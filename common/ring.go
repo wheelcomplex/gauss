@@ -8,7 +8,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/purak/gauss/murmur"
+	"github.com/cstream/gauss/murmur"
 )
 
 // RingChangeListener is a function listening to changes in a Ring

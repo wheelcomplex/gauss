@@ -3,7 +3,7 @@ package radix
 import (
 	"testing"
 
-	"github.com/purak/gauss/common"
+	"github.com/cstream/gauss/common"
 )
 
 func assertSize(t *testing.T, tree *Tree, s int) {

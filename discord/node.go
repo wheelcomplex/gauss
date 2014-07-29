@@ -10,8 +10,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/purak/gauss/common"
-	"github.com/purak/gauss/murmur"
+	"github.com/cstream/gauss/common"
+	"github.com/cstream/gauss/murmur"
 )
 
 // CommListener is a function listening for generic communication between two Nodes.

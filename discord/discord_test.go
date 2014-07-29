@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/purak/gauss/common"
+	"github.com/cstream/gauss/common"
 )
 
 func TestStartup(t *testing.T) {

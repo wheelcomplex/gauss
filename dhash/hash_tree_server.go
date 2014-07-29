@@ -4,8 +4,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/purak/gauss/common"
-	"github.com/purak/gauss/radix"
+	"github.com/cstream/gauss/common"
+	"github.com/cstream/gauss/radix"
 )
 
 type HashTreeItem struct {

@@ -3,7 +3,7 @@ package radix
 import (
 	"bytes"
 
-	"github.com/purak/gauss/common"
+	"github.com/cstream/gauss/common"
 )
 
 const (

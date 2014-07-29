@@ -7,9 +7,9 @@ import (
 	"math/big"
 	"sync/atomic"
 
-	"github.com/purak/gauss/common"
-	"github.com/purak/gauss/murmur"
-	"github.com/purak/gauss/persistence"
+	"github.com/cstream/gauss/common"
+	"github.com/cstream/gauss/murmur"
+	"github.com/cstream/gauss/persistence"
 )
 
 // NaiveTimer is a Timer that just provides the current system time.

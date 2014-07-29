@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/purak/gauss/config"
-	"github.com/purak/gauss/dhash"
-	//"github.com/purak/newton/cstream"
+	"github.com/cstream/gauss/config"
+	"github.com/cstream/gauss/dhash"
+	//"github.com/cstream/newton/cstream"
 	"os"
 	"strings"
 )

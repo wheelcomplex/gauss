@@ -1,7 +1,7 @@
 package discord
 
 import (
-	"github.com/purak/gauss/common"
+	"github.com/cstream/gauss/common"
 )
 
 type nodeServer Node

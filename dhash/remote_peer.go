@@ -3,7 +3,7 @@ package dhash
 import (
 	"time"
 
-	"github.com/purak/gauss/common"
+	"github.com/cstream/gauss/common"
 )
 
 type remotePeer common.Remote

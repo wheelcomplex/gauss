@@ -7,11 +7,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/purak/gauss/common"
-	"github.com/purak/gauss/discord"
-	"github.com/purak/gauss/murmur"
-	"github.com/purak/gauss/radix"
-	"github.com/purak/gauss/timenet"
+	"github.com/cstream/gauss/common"
+	"github.com/cstream/gauss/discord"
+	"github.com/cstream/gauss/murmur"
+	"github.com/cstream/gauss/radix"
+	"github.com/cstream/gauss/timenet"
 )
 
 // SyncListener is a function listening for sync events where one dhash.Node has pushed items to, and pulled items from, another dhash.Node.

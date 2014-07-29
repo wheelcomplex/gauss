@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/purak/gauss/murmur"
+	"github.com/cstream/gauss/murmur"
 )
 
 const (

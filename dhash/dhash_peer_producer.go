@@ -1,7 +1,7 @@
 package dhash
 
 import (
-	"github.com/purak/gauss/timenet"
+	"github.com/cstream/gauss/timenet"
 )
 
 type dhashPeerProducer Node

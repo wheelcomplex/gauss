@@ -6,8 +6,8 @@ import (
 	"os"
 	"runtime/pprof"
 
-	"github.com/purak/gauss/murmur"
-	"github.com/purak/gauss/radix"
+	"github.com/cstream/gauss/murmur"
+	"github.com/cstream/gauss/radix"
 )
 
 func main() {

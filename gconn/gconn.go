@@ -8,7 +8,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/purak/gauss/common"
+	"github.com/cstream/gauss/common"
 	"github.com/zond/setop"
 )
 
@@ -55,9 +55,9 @@ func findKeys(op *setop.SetOp) (result map[string]bool) {
 //
 // Parameters named mininc and maxinc paired with parameters min and max of []byte type defined whether the min and max parameters are inclusive as opposed to exclusive.
 //
-// To install: go get github.com/purak/gauss/gconn
+// To install: go get github.com/cstream/gauss/gconn
 //
-// Usage: https://github.com/purak/gauss/blob/master/gconn/gconn_test.go
+// Usage: https://github.com/cstream/gauss/blob/master/gconn/gconn_test.go
 type Conn struct {
 	ring  *common.Ring
 	state int32

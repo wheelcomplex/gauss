@@ -1,8 +1,8 @@
 package dhash
 
 import (
-	"github.com/purak/gauss/common"
-	"github.com/purak/gauss/radix"
+	"github.com/cstream/gauss/common"
+	"github.com/cstream/gauss/radix"
 )
 
 type remoteHashTree struct {
